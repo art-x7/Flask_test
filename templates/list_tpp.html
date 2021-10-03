@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{tpp_p}} {{product_p}}
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+  <h1>{{tpp_p}} {{product_p}}</h1>
+
+
+
+
+<div class="container py-4">
+  <div class="row align-items-md-stretch">
+    {% for el in resume %}
+    {% if product_p == el.prod_name and tpp_p == el.tpp_stage %}
+    <div class="col-md-6 py-4m">
+      <div class="product_tpp shadow">
+        <h2>{{el.prod_name}}</h2>
+        <p>Process: {{el.process}}</p>
+        <p>Lot Number: {{el.lot_name}}</p>
+        <p>UPH: {{el.uph}}</p>
+        <p>Comment: {{el.comment}}</p>
+        <p>info: {{el.info}}</p>
+      <a class="btn btn-lg btn-primary btn-block" type="button" href="/report/{{el.id}}"> Смотреть отчет </a>  
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</div>
+
+
+<div class="py-4 text-center">
+  <a class="btn btn-lg btn-primary btn-block" href="/report/{{product_p}}"> Назад </a>
+</div>
+
+
+<footer class="container pt-4 my-md-5 pt-md-5 border-top">
+    <div class="text-center row">
+      <div class="col-6 col-md">
+        <h5>GSN</h5>
+        <ul class="list-unstyled text-small">
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/pa">Pre-Assembly</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/ap">Attach Print</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/wb">Wire Bond</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/md">Molding</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/bp">Ball Placing</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/sing">Singulation</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/test">Test</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/pers">Personalization</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/msp">MSP</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>LED</h5>
+        <ul class="list-unstyled text-small">
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Attach Print </a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Wire bond</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Silicon</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Singulation</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Binning test</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Taping</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>About</h5>
+        <ul class="list-unstyled text-small">
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+</footer>
+{% endblock %}

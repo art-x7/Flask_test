@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Form
+{% endblock %}
+
+{% block body %}
+
+<div class="container py-4">
+  <div class="p-5 mb-4 bg-light rounded-3 shadow">
+    <div class="container-fluid py-3">
+      <h1 class="title_h1">Отчет ТПП</h1>
+      <form class="container needs-validation" method="post"> 
+        <div class="row g-3">
+          <div class="col-sm-3">
+            <label for="proces_name" class="form-label">Наименование процесса</label>
+            <select class="form-select" name="process_name" id="process_name" required >
+              <option></option>
+              <option>Pre-Assembly</option>
+              <option>Attach Print</option>
+              <option>Wire Bond</option>
+              <option>Molding</option>
+              <option>Ball Placing</option>
+              <option>Singulation</option>
+              <option>Functional Test</option>
+              <option>Test Gate</option>
+              <option>MSP</option>
+            </select>
+          <div class="invalid-feedback">
+            Введите название продукта.
+          </div>
+        </div>
+        
+    
+        <div class="col-sm-3">
+          <label for="prod_name" class="form-label">Наименование продукта</label>
+          <select class="form-select" name="prod_name" id="prod_name" required>
+            <option></option>
+            <option>GS1</option>
+            <option>NAND</option>
+            <option>Micron</option>
+            <option>1890</option>
+          </select>
+        <div class="invalid-feedback">
+          Введите название продукта.
+        </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="tpp_stage" class="form-label"> Этап ТПП</label>
+          <select class="form-select" name="tpp_stage" id="tpp_stage" required>
+            <option></option>
+            <option>ТПП единичных изделий</option>
+            <option>ТПП серийных изделий</option>
+          </select>
+        <div class="invalid-feedback">
+          Введите название продукта.
+        </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="qty_in" class="form-label">Номер лота</label>
+          <input type="text" class="form-control" name="lot_name" id="lot_name" required>
+          <div class="invalid-feedback">
+            Введите кол-во микросхем на входе процесса.
+          </div>
+        </div>  
+
+        <div class="col-sm-2">
+          <label for="qty_in" class="form-label">Колво на входе</label>
+          <input type="text" class="form-control" name="qty_in" id="qty_in">
+          <div class="invalid-feedback">
+            Введите кол-во микросхем на входе процесса.
+          </div>
+        </div>
+
+        <div class="col-sm-2">
+          <label for="qty_out" class="form-label">Кол-во на выходе</label>
+          <input type="text" class="form-control" name="qty_out" id="qty_out">
+          <div class="invalid-feedback">
+            Введите кол-во микросхем на выходе процесса.
+          </div>
+        </div>
+
+        <div class="col-sm-8">
+          <label for="defects" class="form-label">Дефекты <span class="text-muted">(кол-во)</span></label>
+          <input type="text" class="form-control" name="defects" id="defects">
+          <small class="text-muted">Укажи наименование дефектов и их кол-во через запятую</small>
+          <div class="invalid-feedback">
+            Введите виды и количество дефектов.
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <label for="materials" class="form-label">Затраченные материалы</label>
+          <input type="text" class="form-control" name="materials" id="materials" required>
+          <div class="invalid-feedback">
+            Введите наименования и количество затраченных материалов .
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="tool_name" class="form-label">Наименование оснастки</label>
+          <input type="text" class="form-control" name="tool_name" id="tool_name" required>
+          <div class="invalid-feedback">
+            Введите наименование используемой оснастки.
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="recipe" class="form-label">Recipe</label>
+          <input type="text" class="form-control" name="recipe" id="recipe" required>
+          <div class="invalid-feedback">
+            Введите наименование управляющей программы.
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="time_s" class="form-label">Время на выпуск продукта, ч</label>
+          <input type="text" class="form-control" name="time_s" id="time_s" required>
+          <div class="invalid-feedback">
+            Введите затраченное время.
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="time_p" class="form-label">Время на подготовку, ч</label>
+          <input type="text" class="form-control" name="time_p" id="time_p" required>
+          <div class="invalid-feedback">
+            Введите затраченное время.
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <label for="uph" class="form-label">UPH</label>
+          <input type="text" class="form-control" name="uph" id="uph" required>
+          <div class="invalid-feedback">
+            Введите UPH.
+          </div>
+        </div>
+
+        <hr class="my-4">
+        
+        <div class="col-sm-4">
+          <label for="wafer_name" class="form-label">Название пластины <span class="text-muted">(при необходимости)</span></label>
+          <input type="text" class="form-control" name="wafer_name" id="wafer_name" placeholder="n/a">
+          <div class="invalid-feedback">
+            Введите название пластины.
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <label for="warpage" class="form-label">Коробление <span class="text-muted">(при необходимости)</span></label>
+          <input type="text" class="form-control" name="warpage" id="warpage" placeholder="n/a">
+          <div class="invalid-feedback">
+            Введите коробление подложки.
+          </div>
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" name="info" id="info" value="процесс не готов">
+          <input type="hidden" class="form-check-input" name="info" id="info" value="процесс готов">
+          <label class="form-check-label" for="info">Требуется дополнительная отладка технологического процесса.</label>
+        </div>
+        
+        <hr class="my-4">
+
+        <div class="col-sm-12">
+          <label for="comment" class="form-label">Комментарий <span class="text-muted">(при необходимости)</span></label>
+          <input type="text" class="form-control" name="comment" id="comment" placeholder="n/a">
+          <div class="invalid-feedback">
+            Введите комментарий.
+          </div>
+        </div>
+        <div class="py-4 text-center">
+          <button class="btn btn-lg btn-primary btn-block" type="submit"> Готово </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
