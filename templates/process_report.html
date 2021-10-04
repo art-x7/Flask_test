@@ -1,53 +1,62 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Config
+{{uniq_process}}
 {% endblock %}
 
 {% block body %}
+<div class="container mt-5">
+  <h1>{{uniq_process}}</h1>
 
 
 <div class="container py-4">
   <div class="p-5 mb-4 bg-light rounded-3 shadow">
-    <div class="col-sm-3" method="post">
-      <label for="master_add_product" class="form-label">Наименование продукта</label>
-      <input type="text" class="form-control" name="master_add_product" id="master_add_product">
-      <div class="invalid-feedback">
-        Введите yаименование продукта.
+    <div class="container-fluid py-3">
+      <h2>Отчет запуска нового изделия</h2>
+      <h4>{{product}}</h3>
+        <p>Общее кол-во на входе:  шт.</p>
+        <p>Общее кол-во на выходе:  шт. </p>
+        <p>Общее кол-во дефектов:  шт</p>
+        <p>Yield loss: </p>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Номер Лота</th>
+              <th scope="col">Кол-во на входе</th>
+              <th scope="col">Кол-во на выходе</th>
+              <th scope="col">Кол-во дефектов</th>
+              <th scope="col">Рецепт</th> 
+              <th scope="col">Материал</th>
+              <th scope="col">Оснастка</th>
+              <th scope="col">Комментарий</th>            
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in resume %}
+            <tr> 
+              <th scope="row">{{item.id}}</th>
+              <td>{{item.lot_name}}</td>
+              <td>{{item.qty_in}}</td>
+              <td>{{item.qty_out}}</td>
+              <td>{{item.defects}}</td>
+              <td>{{item.recipe}}</td>
+              <td>{{item.materials}}</td>
+              <td>{{item.tool_name}}</td>
+              <td>{{item.comment}}</td>            
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>        
       </div>
     </div>
-    <div class="py-4">
-      <div class="btn-groupm">
-        <button class="btn btn-lgm btn-primary btn-block" type="submit"> Добавить </button>
-      </div>
-      <div class="btn-groupm">
-        <button class="btn btn-lgm btn-danger btn-block " type="reset"> Удалить </button>
-      </div>
-    </div>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Название продукта</th>
-          <th scope="col">Тип ТПП</th>
-          <th scope="col">Номер ТПП</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          {% for i in range(0, len_data+1) %}
-          <th scope="row">{{i}}</th>
-          {% endfor %}
-          {% for item data.values() %}
-          <td>{{item}}</td>
-          {% endfor %}
-          {% endfor %}
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>
 
+
+<div class="py-4 text-center">
+  <a class="btn btn-lg btn-primary btn-block" href="/report/{{product_t}}/{{tpp_t}}"> Назад </a>
+</div>
 
 
 <footer class="container pt-4 my-md-5 pt-md-5 border-top">

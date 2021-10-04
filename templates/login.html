@@ -7,20 +7,15 @@ Login
 {% block body %}
 
 <div class="text-center" style="display: flex; padding-top: 40px; padding-bottom: 40px; align-items: center; justify-content: space-around;">
-  <form class="form-signin" style="width: 100%; max-width: 330px; padding: 15px; margin: auto;">
+  <div class="p-5 mb-4 bg-light rounded-3 shadow">
+    <form class="form-signin" style="width: 100%; max-width: 330px; padding: 15px; margin: auto;">
     <h1 class="h3 mb-3 font-weight-normal">Войдите</h1>
-    <label for="inputEmail" class="sr-only">Логин</label>
-    <input type="email" style="width: 300px; height: 35px;" id="inputEmail" class="container form-control" placeholder="Логин" required autofocus>
-    <label for="inputPassword" class="sr-only">Пароль</label>
-    <input type="password" style="width: 300px; height: 35px;" id="inputPassword" class="container form-control" placeholder="Пароль" required>
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Запомнить меня
-      </label>
-    </div>
+    <input type="text" style="width: 300px; height: 35px; margin-bottom: 1rem!important;" name="username" class="container form-control" placeholder="Логин" required autofocus>
+    <input type="password" style="width: 300px; height: 35px; margin-bottom: 1rem!important;" name="psw"  class="container form-control" placeholder="Пароль" required>
     <button class="btn btn-lg btn-primary btn-block" type="submit"> Войти </button>
     <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
   </form>
+  </div> 
 </div>
 
 {% endblock %}

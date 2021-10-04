@@ -1,7 +1,8 @@
+
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from sql import Article
-
+from sql import Tpp
+from sqlalchemy.sql import func
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tpp.db"
@@ -13,9 +14,11 @@ db = SQLAlchemy(app)
 def index():
   return render_template('index.html')
 
+
 @app.route('/login')
 def login():
   return render_template('login.html')
+
 
 @app.route('/form', methods=["POST", "GET"])
 def form():
@@ -39,7 +42,7 @@ def form():
     comment = request.form['comment']
     
     
-    article = Article(
+    tpp = Tpp(
       process=process,
       tpp_stage=tpp_stage,
       prod_name=prod_name, 
@@ -60,7 +63,7 @@ def form():
       )
 
     try:
-      db.session.add(article)
+      db.session.add(tpp)
       db.session.commit()
       return redirect('/')
     except:
@@ -69,12 +72,14 @@ def form():
   else:
     return render_template('process/form.html')  
 
+
 """REPORT"""
 @app.route('/report')
 def report():
-  articles = Article.query.all()
+  tpps = Tpp.query.all()
   product = ["GS1", "NAND", "Micron", "1890"]
-  return render_template('report.html', articles=articles, product=product)
+  return render_template('report.html', tpps=tpps, product=product)
+
 
 @app.route('/report/<string:product>')
 def report_f(product):
@@ -82,16 +87,58 @@ def report_f(product):
   tpp = ["ТПП единичных изделий", "ТПП серийных изделий"]
   return render_template('report_f.html', tpp=tpp, product_s=product_s)
 
+
 @app.route('/report/<string:product>/<string:tpp>')
 def list(product, tpp):
   product_p = product
   tpp_p = tpp
-  resume = Article.query.all()
-  return render_template('list_tpp.html', resume=resume, tpp_p=tpp_p, product_p=product_p)
+  resume = Tpp.query.all()
+  process = []
+  for i in range(1, len(resume)+1):
+    process.append(Tpp.query.get(i).process)
+  uniq_process = set(process)
+  print(uniq_process)
+  return render_template('list_tpp.html', resume=resume, tpp_p=tpp_p, product_p=product_p, uniq_process=uniq_process)
 
-@app.route('/master')
+
+
+@app.route('/report/<string:product>/<string:tpp>/<string:uniq_process>')
+def process_report(product, tpp, uniq_process):
+  resume = Tpp.query.filter(Tpp.process==uniq_process).all()
+     
+  sum_data_in = []
+  sum_data_out = []
+  for item in resume:
+    sum_data_in.append(item.qty_in)
+    sum_data_out.append(item.qty_out)
+  sum_qty_in = sum(sum_data_in)
+  sum_qty_out = sum(sum_data_out)
+  print(sum_data_in)
+  print(sum_data_out)
+  print(resume)
+  
+  #sum_qty_in = db.engine.execute("SELECT SUM(qty_in) FROM tpp WHERE tpp.process='uniq_process'")
+  #print(sum_qty_in)
+
+  return render_template('process_report.html', resume=resume, tpp=tpp, product=product, uniq_process=uniq_process, )
+
+@app.route('/master', methods=["POST", "GET"])
 def master():
-  return render_template('master.html')
+  data = {
+    "GS1": ["ТПП единичных изделий", 1],
+    "NAND": ["ТПП единичных изделий", 2],
+    "Micron": ["ТПП серийных изделий", 1],
+    "1890": ["ТПП серийных изделий", 2],
+    }
+    
+  len_data = len(data)
+  return render_template('master.html', data=data, len_data=len_data)
+
+
+@app.errorhandler(404)
+def pageNotFound(error):
+  return render_template('page404.html')
+
 
 if __name__=="__main__":
   app.run(host='0.0.0.0', port=8080, debug=False)

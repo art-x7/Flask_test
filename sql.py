@@ -6,9 +6,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tpp.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-    
-
-class Article(db.Model):
+class Tpp(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   process = db.Column(db.Text, nullable=False)
   tpp_stage = db.Column(db.Text, nullable=False)
@@ -29,7 +27,8 @@ class Article(db.Model):
   comment = db.Column(db.Text, nullable=False)
   
   def __repr__(self):
-    return '<Article %r>' % self.id
+    return '<Tpp %r>' % self.id
+
 
 with app.app_context():
   db.create_all()

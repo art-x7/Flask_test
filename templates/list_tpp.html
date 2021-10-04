@@ -9,24 +9,17 @@
   <h1>{{tpp_p}} {{product_p}}</h1>
 
 
-
-
 <div class="container py-4">
   <div class="row align-items-md-stretch">
-    {% for el in resume %}
-    {% if product_p == el.prod_name and tpp_p == el.tpp_stage %}
-    <div class="col-md-6 py-4m">
+    {% for item in uniq_process %}
+    <div class="col-md-4 py-4m">
       <div class="product_tpp shadow">
-        <h2>{{el.prod_name}}</h2>
-        <p>Process: {{el.process}}</p>
-        <p>Lot Number: {{el.lot_name}}</p>
-        <p>UPH: {{el.uph}}</p>
-        <p>Comment: {{el.comment}}</p>
-        <p>info: {{el.info}}</p>
-      <a class="btn btn-lg btn-primary btn-block" type="button" href="/report/{{el.id}}"> Смотреть отчет </a>  
+        <h2>{{product_p}}</h2>       
+        <p>Process: {{item}}</p>
+    
+      <a class="btn btn-lg btn-primary btn-block" type="button" href="/report/{{product_p}}/{{tpp_p}}/{{item}}"> Смотреть отчет </a>  
       </div>
     </div>
-    {% endif %}
     {% endfor %}
   </div>
 </div>
