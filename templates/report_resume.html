@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Отчет для {{uniq_process}}
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+  <h1>{{uniq_process}}</h1>
+
+
+<div class="container py-4">
+  <div class="p-5 mb-4 bg-light rounded-3 shadow">
+    <div class="container-fluid py-3">
+      <h2 class="text-center">Отчет запуска нового изделия</h2>
+      <h4 class="text-center py-4m">{{product}}</h4>
+        <p>Общее кол-во на входе: {{sum_qty[0]}} шт.</p>
+        <p>Общее кол-во на выходе: {{sum_qty[1]}} шт. </p>
+        <p>Общее кол-во дефектов: {{sum_qty[0]-sum_qty[1]}} шт.</p>
+        <p>Yield loss: {{'%.2f' %((sum_qty[0]-sum_qty[1])/sum_qty[0]*100)}} %.</p>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#id</th>
+              <th scope="col">Номер Лота</th>
+              <th scope="col">Кол-во на входе</th>
+              <th scope="col">Кол-во на выходе</th>
+              <th scope="col">Кол-во дефектов</th>
+              <th scope="col">Рецепт</th> 
+              <th scope="col">Материал</th>
+              <th scope="col">Оснастка</th>
+              <th scope="col">Комментарий</th>            
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in resume %}
+            <tr> 
+              <th scope="row">{{item.id}}</th>
+              <td>{{item.lot_name}}</td>
+              <td>{{item.qty_in}}</td>
+              <td>{{item.qty_out}}</td>
+              <td>{{item.defects}}</td>
+              <td>{{item.recipe}}</td>
+              <td>{{item.materials}}</td>
+              <td>{{item.tool_name}}</td>
+              <td>{{item.comment}}</td>            
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="py-4 text-center">
+  <a class="btn btn-lg btn-primary btn-block" href="/tpp_report/{{product}}/{{tpp}}"> Назад </a>
+</div>
+<div class="py-4 text-center">
+  <a class="btn btn-lg btn-primary btn-block" onclick="convert_html_to_pdf()"> Скачать отчет </a>
+</div>
+
+
+{% endblock %}
+
+

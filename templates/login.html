@@ -1,10 +1,19 @@
-{% extends 'base.html' %}
-
-{% block title %}
-Login
-{% endblock %}
-
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/"> 
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+    <title>Войти</title>
+  </head>
+<body>
 
 <div class="text-center" style="display: flex; padding-top: 40px; padding-bottom: 40px; align-items: center; justify-content: space-around;">
   <div class="p-5 mb-4 bg-light rounded-3 shadow">
@@ -17,5 +26,3 @@ Login
   </form>
   </div> 
 </div>
-
-{% endblock %}

@@ -84,18 +84,3 @@ th, td {
 .nav__link:hover:after {
     opacity: 1;
 }
-
-/* BUTTONS */
-
-.btn-lgm {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border-radius: 0.3rem;
-}
-
-.btn-groupm{
-    position: relative;
-    display: inline-flex;
-    vertical-align: middle;
-    padding-right:0.5rem
-}

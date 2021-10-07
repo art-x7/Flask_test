@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Конифгуратор
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container py-4">
+    <form class="p-5 mb-4 bg-light rounded-3 shadow" method="post">
+        <div class="row align-items-md-stretch">
+            <div class="col-md-4">
+                <div class="col-sm-12">
+                    <label for="master_add_product" class="form-label">Введите наименование продукта</label>
+                    <input type="text" class="form-control" name="master_add_product" id="master_add_product">
+                    <div class="invalid-feedback">
+                        Введите yаименование продукта.
+                    </div>
+                </div>
+                <div class="col-sm-12">   
+                    <label for="master_add_tpp_stage" class="form-label">Введите этап ТПП</label>
+                    <select class="form-select" name="master_add_tpp_stage" id="master_add_tpp_stage" required>
+                        <option></option>
+                        <option>ТПП единичных изделий</option>
+                        <option>ТПП серийных изделий</option>
+                    </select>
+                </div>
+                <div class="col-sm-12">   
+                    <label for="master_comment" class="form-label">Комментарий</label>
+                    <input type="text" class="form-control" name="master_comment" id="master_comment">
+                    <div class="invalid-feedback">
+                        Введите yаименование продукта.
+                    </div>
+                    <div class="py-3">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit"> Добавить </button>
+                    </div>    
+                </div>
+            </div> 
+     
+            <div class="col-md-8">   
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">#id</th>
+                        <th scope="col">Наименование продукта</th>
+                        <th scope="col">Стадия ТПП</th>
+                        <th scope="col">Комментарии</th>         
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in tpp_config %}
+                        <tr> 
+                        <th scope="row">{{item.id}}</th>
+                        <td>{{item.prod_name}}</td>
+                        <td>{{item.tpp_stage}}</td>
+                        <td>{{item.comment}}</td>            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
+            </div>    
+         </div>      
+    </form>
+</div>
+
+
+{% endblock %}
