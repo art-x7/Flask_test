@@ -77,7 +77,8 @@ def input_form_page():
 @app_routes.route('/tpp_report')
 def tpp_report_choice_product():
     from app import db
-    product = {i[0] for i in db.engine.execute(f"SELECT prod_name FROM Tpp_config ORDER BY prod_name").all()}
+    data = db.engine.execute(f"SELECT prod_name FROM Tpp_config ORDER BY prod_name").all()
+    product = {i[0] for i in data}
 
     return render_template('choice_product.html', product=product)
 
@@ -86,8 +87,9 @@ def tpp_report_choice_product():
 @app_routes.route('/tpp_report/<string:product>/')
 def tpp_report_choice_types_tpp(product):
     from app import db
-    tpp_config = {i[0] for i in db.engine.execute(
-        f"SELECT tpp_stage FROM Tpp_config WHERE prod_name='{product}' ORDER BY tpp_stage").all()}
+    data = db.engine.execute(
+        f"SELECT tpp_stage FROM Tpp_config WHERE prod_name='{product}' ORDER BY tpp_stage").all()
+    tpp_config = {i[0] for i in data}
 
     return render_template('choice_types_tpp.html', tpp_config=tpp_config, product=product)
 
@@ -96,8 +98,9 @@ def tpp_report_choice_types_tpp(product):
 @app_routes.route('/tpp_report/<string:product>/<string:tpp>/')
 def tpp_report_choice_process(product, tpp):
     from app import db
-    uniq_process = {i[0] for i in db.engine.execute(
-        f"SELECT process FROM tpp WHERE prod_name='{product}' AND tpp_stage='{tpp}'").all()}
+    data = db.engine.execute(
+        f"SELECT process FROM tpp WHERE prod_name='{product}' AND tpp_stage='{tpp}'").all()
+    uniq_process = {i[0] for i in data}
 
     return render_template('choice_process.html', tpp=tpp, product=product, uniq_process=uniq_process)
 
@@ -106,11 +109,8 @@ def tpp_report_choice_process(product, tpp):
 @app_routes.route('/tpp_report/<string:product>/<string:tpp>/<string:uniq_process>/')
 def tpp_report_resume(product, tpp, uniq_process):
     from app import db
-    resume = {i for i in
-              db.engine.execute(f"SELECT * FROM tpp WHERE process='{uniq_process}' ORDER BY id + 0 desc").all()}
-    print(resume)
-    sum_qty = db.engine.execute(f"SELECT SUM(qty_in), SUM(qty_out) FROM tpp WHERE tpp.process='{uniq_process}'").all()[
-        0]
+    resume = db.engine.execute(f"SELECT * FROM tpp WHERE process='{uniq_process}' ORDER BY id").all()
+    sum_qty = db.engine.execute(f"SELECT SUM(qty_in), SUM(qty_out) FROM tpp WHERE tpp.process='{uniq_process}'").all()[0]
 
     # html = render_template('report_resume.html', resume=resume, tpp=tpp, product=product, uniq_process=uniq_process, sum_qty=sum_qty)
 
