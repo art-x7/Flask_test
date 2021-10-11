@@ -42,6 +42,7 @@ def login_page():
 def input_form_page():
     from main import db
     from models import Tpp
+
     if request.method == "POST":
         process = request.form['process_name']
         tpp_stage = request.form['tpp_stage']
@@ -97,6 +98,7 @@ def input_form_page():
 def config_page():
     from main import db
     from models import Tpp_config
+    
     tpp_config = db.session.query(Tpp_config).all()
     if request.method == "POST":
         prod_name = request.form['master_add_product']
