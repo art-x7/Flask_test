@@ -7,31 +7,94 @@
 {% block body %}
 
 <div class="container py-4">
-    <div class="p-5 mb-4 bg-light rounded-3 shadow">
-      <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Отчеты по ТПП</h1>
-        <p class="col-md-8 fs-4">Отчеты по ТПП активных продуктов.</p>
-        <a class="btn btn-primary btn-lg" type="button" href="/tpp_report">Смотреть</a>
-      </div>
-    </div>
-
     <div class="row align-items-md-stretch">
-      <div class="col-md-6">
-        <div class="h-100 p-5 text-white bg-dark rounded-3 shadow">
-          <h2>Другое</h2>
-          <p>Другие файлы, отчеты, параметры процессов и т.д.</p>
-          <button class="btn btn-outline-light" type="button">Смотреть</button>
-        </div>
-      </div>
+        <form class="col-md-3" method="post">
+            <div class="h-100 p-3 text-white bg-dark rounded-3 shadow" >
+                <h3>Фильтр</h3>
+                <div class="col-sm-12">
+                    <label for="list_product" class="form-label">Продукт</label>
+                    <select class="form-select" name="list_product" id="list_product" required>
+                        <option></option>
+                        {% for i in product_list %}
+                        <option>{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-12">   
+                    <label for="list_tpp_stage" class="form-label">Этап ТПП</label>
+                    <select class="form-select" name="list_tpp_stage" id="list_tpp_stage" required>
+                        <option></option>
+                        <option>ТПП единичных изделий</option>
+                        <option>ТПП серийных изделий</option>
+                    </select>
+                </div>
+                <div class="col-sm-12">    
+                    <label for="list_process" class="form-label">Процесс</label>
+                    <select class="form-select" name="list_process" id="list_process" required; return false>
+                        <option></option>
+                        {% for i in process_list %}
+                        <option>{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="py-3">
+                    <button class="btn btn-m btn-primary btn-block" type="submit"> Применить </button>
+                </div>
+            </div>
+        </form>
       
-      <div class="col-md-6">
-        <div class="h-100 p-5 bg-light border rounded-3 shadow">
-          <h2>База знаний</h2>
-          <p>Здесь могла быть база знаний.</p>
-          <button class="btn btn-outline-secondary" type="button">Смотреть</button>
+        <div class="col-md-9">
+            <div class="h-100 p-5 bg-light border rounded-3 shadow">
+                <div class="container-fluid py-3">
+                    <h2 class="text-center">Отчет запуска нового изделия</h2>
+                    <h4 class="text-center py-4m">{{product}}</h4>
+                        <p>Общее кол-во на входе: {{sum_qty[0]}} шт.</p>
+                        <p>Общее кол-во на выходе: {{sum_qty[1]}} шт. </p>
+                        {% if sum_qty[0] == None %}
+                        <p>Общее кол-во дефектов: None шт.</p>
+                        {% else %}
+                        <p>Общее кол-во дефектов: {{sum_qty[0]-sum_qty[1]}} шт.</p>
+                        {% endif %}
+                        {% if sum_qty[0] == None %}
+                        <p>Yield loss: None шт.</p>
+                        {% else %}
+                        <p>Yield loss: {{'%.2f' %((sum_qty[0]-sum_qty[1])/sum_qty[0]*100)}} %.</p>
+                        {% endif %}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                <th scope="col">#id</th>
+                                <th scope="col">Номер Лота</th>
+                                <th scope="col">Кол-во на входе</th>
+                                <th scope="col">Кол-во на выходе</th>
+                                <th scope="col">Кол-во дефектов</th>
+                                <th scope="col">Рецепт</th> 
+                                <th scope="col">Материал</th>
+                                <th scope="col">Оснастка</th>
+                                <th scope="col">Комментарий</th>            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in resume %}
+                                <tr> 
+                                <th scope="row">{{item.id}}</th>
+                                <td>{{item.lot_name}}</td>
+                                <td>{{item.qty_in}}</td>
+                                <td>{{item.qty_out}}</td>
+                                <td>{{item.defects}}</td>
+                                <td>{{item.recipe}}</td>
+                                <td>{{item.materials}}</td>
+                                <td>{{item.tool_name}}</td>
+                                <td>{{item.comment}}</td>            
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>        
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from app import db
+from main import db
 
 
 class Tpp(db.Model):
@@ -22,7 +22,7 @@ class Tpp(db.Model):
     comment = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return '<Tpp %r>' % self.id
+        return f'<Tpp {self.id}>'
 
 
 class Tpp_config(db.Model):
@@ -32,5 +32,5 @@ class Tpp_config(db.Model):
     comment = db.Column(db.Text, nullable=False)
     
     def __repr__(self):
-        return '<Tpp_config %r>' % self.id
+        return f'<Tpp_config {self.id}>'
         

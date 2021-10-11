@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, make_response
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from routes import app_routes
@@ -10,8 +10,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 with app.app_context():
-    from models import Tpp, Tpp_config
-
+    from models import *
+    
     db.create_all()
 
 
