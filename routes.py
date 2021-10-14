@@ -1,12 +1,15 @@
-from flask import render_template, request, redirect, Blueprint
-
+from flask import render_template, request, redirect, Blueprint, flash, url_for
+from forms import LoginForm
+from flask_login import current_user, login_user,  logout_user, login_required
+from werkzeug.urls import url_parse
 
 app_routes = Blueprint("app_routes", __name__)
 
 
 # Основная страница
 @app_routes.route('/', methods=["POST", "GET"])
-def index_page():
+@login_required
+def index():
     from main import db
     
     data_product = db.engine.execute(f"SELECT prod_name FROM Tpp_config ORDER BY prod_name").all()
@@ -38,10 +41,30 @@ def index_page():
 
 
 # Страница для входа
-@app_routes.route('/login')
+@app_routes.route('/login', methods=['GET', 'POST'])
 def login_page():
-    return render_template('login.html')
+    from models import User
+    
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect('/login')
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(url_for('next_page'))
 
+    return render_template('login.html', form=form)
+
+@app_routes.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 # Страница для заполнения отчета
 @app_routes.route('/form', methods=["POST", "GET"])
@@ -107,26 +130,48 @@ def config_page():
     
     tpp_config = db.session.query(Tpp_config).all()
     if request.method == "POST":
-        prod_name = request.form['master_add_product']
-        tpp_stage = request.form['master_add_tpp_stage']
-        number = request.form['master_add_number']
-        owner = request.form['master_add_owner']
-        comment = request.form['master_comment']
+        if request.form["btn"] == "add":
+            prod_name = request.form['master_add_product']
+            tpp_stage = request.form['master_add_tpp_stage']
+            number = request.form['master_add_number']
+            owner = request.form['master_add_owner']
+            comment = request.form['master_comment']
 
-        config_product = Tpp_config(
-            prod_name=prod_name,
-            tpp_stage=tpp_stage,
-            number=number,
-            owner=owner,
-            comment=comment
-        )
+            config_product = Tpp_config(
+                prod_name=prod_name,
+                tpp_stage=tpp_stage,
+                number=number,
+                owner=owner,
+                comment=comment
+            )
+
+            try:
+                db.session.add(config_product)
+                db.session.commit()
+                return redirect('/config_page')
+            except:
+                return "При добавление произошла ошибка"
+        elif request.form["btn"] == "update":
+            id_tabel = request.form["up_table_id"]
+            prod_name_table = request.form['up_table_prod_name']
+            tpp_stage_table = request.form['up_table_tpp_stage']
+            number_table = request.form['up_table_number']
+            owner_table = request.form['up_table_owner']
+            comment_table = request.form['up_table_comment']
         
-        try:
-            db.session.add(config_product)
-            db.session.commit()
-            return redirect('/config_page')
-        except:
-            return "При добавление произошла ошибка"
+            new_prod_name = Tpp_config.query.get(id_tabel)
+            print(comment)
+            try:              
+                new_prod_name.prod_name = prod_name_table
+                new_prod_name.tpp_stage = tpp_stage_table
+                new_prod_name.number = number_table
+                new_prod_name.owner = owner_table 
+                new_prod_name.comment = comment_table
+                db.session.add(new_prod_name)
+                db.session.commit()
+                return redirect('/config_page')
+            except:
+                return "При изменении произошла ошибка"
 
     else:
         return render_template('config_page.html', tpp_config=tpp_config)

@@ -1,13 +1,17 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
+from config import Config
 from routes import app_routes
+
 
 app = Flask(__name__)
 app.register_blueprint(app_routes)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tpp.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config.from_object(Config)
 db = SQLAlchemy(app)
+login = LoginManager(app)
+login.login_view = 'auth.login'
 
 with app.app_context():
     from models import *
