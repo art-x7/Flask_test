@@ -1,0 +1,57 @@
+
+<div class="container py-4">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow">
+        <div class="row align-items-md-stretch">
+            <form class="col-md-4" method="post">
+                <h3>Редактор ТПП</h3>
+                <div class="col-sm-12">   
+                    <label for="change_id" class="form-label">ID ТПП</label>
+                    <select class="form-select" name="change_id" id="change_id" required>
+                        <option></option>
+                        {% for item in tpp_config %}
+                        <option>{{item.id}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-12">
+                    <label for="change_product" class="form-label">Введите новое наименование продукта</label>
+                    <input type="text" class="form-control" name="change_product" id="change_product">
+                   
+                </div>
+                <div class="col-sm-12">   
+                    <label for="change_comment" class="form-label">Введите новый комментарий</label>
+                    <input type="text" class="form-control" name="change_comment" id="change_comment">
+                    
+                    <div class="py-3">
+                        <button class="btn btn-m btn-primary btn-block" type="submit" name="btn" value="Update"> Редактировать </button>
+                    </div>    
+                </div>
+            </form> 
+            <div class="col-md-8">   
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">#id</th>
+                        <th scope="col">Наименование продукта</th>
+                        <th scope="col">Стадия ТПП</th>
+                        <th scope="col">Комментарий</th>         
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in tpp_config %}
+                        <tr> 
+                        <th scope="row">{{item.id}}</th>
+                        <td>{{item.prod_name}}</td>
+                        <td>{{item.tpp_stage}}</td>
+                        <td>{{item.comment}}</td>            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table> 
+            </div>    
+         </div>      
+    </div>
+</div>
+
+
+{% endblock %}

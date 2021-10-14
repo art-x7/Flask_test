@@ -68,7 +68,7 @@
 
         <div class="col-sm-2">
           <label for="qty_in" class="form-label">Колво на входе</label>
-          <input type="text" class="form-control" name="qty_in" id="qty_in">
+          <input type="text" class="form-control" name="qty_in" id="qty_in" required>
           <div class="invalid-feedback">
             Введите кол-во микросхем на входе процесса.
           </div>
@@ -76,7 +76,7 @@
 
         <div class="col-sm-2">
           <label for="qty_out" class="form-label">Кол-во на выходе</label>
-          <input type="text" class="form-control" name="qty_out" id="qty_out">
+          <input type="text" class="form-control" name="qty_out" id="qty_out" required>
           <div class="invalid-feedback">
             Введите кол-во микросхем на выходе процесса.
           </div>
@@ -84,7 +84,7 @@
 
         <div class="col-sm-8">
           <label for="defects" class="form-label">Дефекты <span class="text-muted">(кол-во)</span></label>
-          <input type="text" class="form-control" name="defects" id="defects">
+          <input type="text" class="form-control" name="defects" id="defects" required>
           <small class="text-muted">Укажи наименование дефектов и их кол-во через запятую</small>
           <div class="invalid-feedback">
             Введите виды и количество дефектов.

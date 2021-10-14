@@ -6,7 +6,7 @@
 
 {% block body %}
 
-<div class="container py-4">
+<div class="container py-5">
     <div class="row align-items-md-stretch">
         <form class="col-md-3" method="post">
             <div class="h-100 p-3 text-white bg-dark rounded-3 shadow" >
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-sm-12">    
                     <label for="list_process" class="form-label">Процесс</label>
-                    <select class="form-select" name="list_process" id="list_process" required; return false>
+                    <select class="form-select" name="list_process" id="list_process">
                         <option></option>
                         {% for i in process_list %}
                         <option>{{i}}</option>
@@ -44,7 +44,7 @@
         </form>
       
         <div class="col-md-9">
-            <div class="h-100 p-5 bg-light border rounded-3 shadow">
+            <div class="h-100 p-3 bg-light border rounded-3 shadow">
                 <div class="container-fluid py-3">
                     <h2 class="text-center">Отчет запуска нового изделия</h2>
                     <h4 class="text-center py-4m">{{product}}</h4>
@@ -64,10 +64,11 @@
                             <thead>
                                 <tr>
                                 <th scope="col">#id</th>
-                                <th scope="col">Номер Лота</th>
-                                <th scope="col">Кол-во на входе</th>
-                                <th scope="col">Кол-во на выходе</th>
-                                <th scope="col">Кол-во дефектов</th>
+                                <th scope="col">Процесс</th>
+                                <th scope="col">№ лота</th>
+                                <th scope="col">Входе</th>
+                                <th scope="col">Выходе</th>
+                                <th scope="col">Дефекты</th>
                                 <th scope="col">Рецепт</th> 
                                 <th scope="col">Материал</th>
                                 <th scope="col">Оснастка</th>
@@ -78,6 +79,7 @@
                                 {% for item in resume %}
                                 <tr> 
                                 <th scope="row">{{item.id}}</th>
+                                <td>{{item.process}}</td>
                                 <td>{{item.lot_name}}</td>
                                 <td>{{item.qty_in}}</td>
                                 <td>{{item.qty_out}}</td>

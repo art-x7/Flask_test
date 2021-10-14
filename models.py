@@ -29,8 +29,20 @@ class Tpp_config(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     prod_name = db.Column(db.Text, nullable=False)
     tpp_stage = db.Column(db.Text, nullable=False)
+    number = db.Column(db.Text, nullable=False)
+    owner = db.Column(db.Text, nullable=False)
     comment = db.Column(db.Text, nullable=False)
     
     def __repr__(self):
         return f'<Tpp_config {self.id}>'
+        
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+    login = db.Column(db.Text, nullable=False)
+    password = db.Column(db.Text, nullable=False)
+    
+    def __repr__(self):
+        return f'<Tpp_config {self.id} by {self.name}>'
         

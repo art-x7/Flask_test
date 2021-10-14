@@ -22,9 +22,15 @@ def index_page():
         tpp_stage = request.form['list_tpp_stage']
         prod_name = request.form['list_product']
 
-        resume = db.engine.execute(f"SELECT * FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}' AND process='{process}'").all()
-  
-        sum_qty = db.engine.execute(f"SELECT SUM(qty_in), SUM(qty_out) FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}' AND process='{process}'").all()[0]
+        if process == "":
+            resume = db.engine.execute(f"SELECT * FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}' ORDER BY process").all()
+
+            sum_qty = db.engine.execute(f"SELECT SUM(qty_in), SUM(qty_out) FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}'").all()[0]
+        else:
+            resume = db.engine.execute(f"SELECT * FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}' AND process='{process}'").all()
+
+            sum_qty = db.engine.execute(f"SELECT SUM(qty_in), SUM(qty_out) FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}' AND process='{process}'").all()[0]
+        
 
         product = prod_name
 
@@ -103,14 +109,18 @@ def config_page():
     if request.method == "POST":
         prod_name = request.form['master_add_product']
         tpp_stage = request.form['master_add_tpp_stage']
+        number = request.form['master_add_number']
+        owner = request.form['master_add_owner']
         comment = request.form['master_comment']
 
         config_product = Tpp_config(
             prod_name=prod_name,
             tpp_stage=tpp_stage,
+            number=number,
+            owner=owner,
             comment=comment
         )
-
+        
         try:
             db.session.add(config_product)
             db.session.commit()
@@ -120,6 +130,38 @@ def config_page():
 
     else:
         return render_template('config_page.html', tpp_config=tpp_config)
+
+# Страница обновления Tpp_config
+@app_routes.route('/update_page', methods=["POST", "GET"])
+def update_config():
+    from main import db
+    from models import Tpp_config
+    tpp_config = db.session.query(Tpp_config).all()
+    
+    if request.method == "POST":
+        id_change = request.form["change_id"]
+        prod_name = request.form["change_product"]
+        tpp_stage = request.form["change_tpp_stage"]
+        number = request.form["change_number"]
+        owner = request.form["change_owner"]
+        comment = request.form["change_comment"]
+
+        new_prod_name = Tpp_config.query.get(id_change)
+   
+        try:              
+            new_prod_name.prod_name = prod_name
+            new_prod_name.tpp_stage = tpp_stage 
+            new_prod_name.number = number
+            new_prod_name.owner = owner 
+            new_prod_name.comment = comment
+            db.session.add(new_prod_name)
+            db.session.commit()
+            return redirect('/config_page')
+        except:
+            return "При изменении произошла ошибка"
+    else:   
+        return render_template('config_update.html', tpp_config=tpp_config)
+
 
 
 # Страница для 404 ошибки
