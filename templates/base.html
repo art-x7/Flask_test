@@ -18,8 +18,12 @@
       <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
         <a class="nav__link" href="/">Главная</a>
         <a class="nav__link" href="/form">Заполнить отчет</a>
-        <a class="nav__link" href="/config_page">Конфигуратор</a>
+        <a class="nav__link" href="/config_tpp">Конфигуратор</a>
+        {% if current_user.is_anonymous %}
         <a class="nav__link" href="/login">Войти</a>
+        {% else %}
+        <a href="/logout">Выйти</a>
+        {% endif %}
       </nav>
     </div>
 {% block body %}{% endblock %}
@@ -30,15 +34,15 @@
       <div class="col-6 col-md">
         <h5>GSN</h5>
         <ul class="list-unstyled text-small">
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/pa">Pre-Assembly</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/ap">Attach Print</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/wb">Wire Bond</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/md">Molding</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/bp">Ball Placing</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/sing">Singulation</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/test">Test</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/pers">Personalization</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/msp">MSP</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Pre-Assembly</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Attach Print</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Wire Bond</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Molding</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Ball Placing</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Singulation</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Test</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Personalization</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">MSP</a></li>
         </ul>
       </div>
       <div class="col-6 col-md">
@@ -53,10 +57,10 @@
         </ul>
       </div>
       <div class="col-6 col-md">
-        <h5>About</h5>
+        <h5>Config</h5>
         <ul class="list-unstyled text-small">
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/config_tpp">Tpp</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/config_user">Users</a></li>
           <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
           <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
         </ul>
