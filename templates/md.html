@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}
+EMC Calculator
+{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+    <div class="row align-items-md-stretch">     
+        <div class="col-md-12">
+            <div class="h-100 p-3 bg-light border rounded-3 shadow">
+                <h3 class="text-center">Calculator EMC</h3>
+                <form class="container needs-validation" method="post"> 
+                    <div class="row g-3">
+                    <div class="col-sm-3">
+                        <label for="sub_thickness" class="form-label">Толщина подлжки</label>
+                        <select class="form-select" name="sub_thickness" id="sub_thickness" required >
+                        <option></option>
+                        <option>0.14</option>
+                        <option>0.24</option>
+                        <option>0.35</option>
+                        <option>0.6</option>
+                        </select>
+                    </div>
+                
+                    <div class="col-sm-3">
+                    <label for="q_ty_unit" class="form-label">Кол-во посадочных мест на подложке</label>
+                    <input type="text" class="form-control" name="q_ty_unit" id="q_ty_unit" required>
+                    </div>
+
+                    <div class="col-sm-3">
+                    <label for="q_ty_die_unit" class="form-label">Кол-во различных кристаллов на одном юните</label>
+                    <input type="text" class="form-control" name="q_ty_die_unit" id="q_ty_die_unit" required>
+                    </div>
+
+                    <div class="col-sm-3">
+                    <label for="q_ty_unit" class="form-label">Кол-во различных кристаллов на одном юните</label>
+                    <input type="text" class="form-control" name="q_ty_unit" id="q_ty_unit" required>
+                    </div>
+                    {% for i in range(0, q_ty_unit) %}
+                    <div class="col-sm-3">
+                    <label for="die_location" class="form-label">Различные кристаллы расположены рядом?</label>
+                    <select class="form-select" name="die_location" id="die_location" required>
+                        <option></option>
+                        <option>Да</option>
+                        <option>Нет</option>
+                    </select>
+
+                    </div>
+                    {% endfor %}
+
+                    <div class="col-sm-3">
+                    <label for="qty_in" class="form-label">Номер лота</label>
+                    <input type="text" class="form-control" name="lot_name" id="lot_name" required>
+                    <div class="invalid-feedback">
+                        Введите кол-во микросхем на входе процесса.
+                    </div>
+                    </div>  
+
+                    <div class="col-sm-2">
+                    <label for="qty_in" class="form-label">Колво на входе</label>
+                    <input type="text" class="form-control" name="qty_in" id="qty_in" required>
+                    <div class="invalid-feedback">
+                        Введите кол-во микросхем на входе процесса.
+                    </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                    <label for="qty_out" class="form-label">Кол-во на выходе</label>
+                    <input type="text" class="form-control" name="qty_out" id="qty_out" required>
+                    <div class="invalid-feedback">
+                        Введите кол-во микросхем на выходе процесса.
+                    </div>
+                    </div>
+
+                    <div class="col-sm-8">
+                    <label for="defects" class="form-label">Дефекты <span class="text-muted">(кол-во)</span></label>
+                    <input type="text" class="form-control" name="defects" id="defects" required>
+                    <small class="text-muted">Укажи наименование дефектов и их кол-во через запятую</small>
+                    <div class="invalid-feedback">
+                        Введите виды и количество дефектов.
+                    </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                    <label for="materials" class="form-label">Затраченные материалы</label>
+                    <input type="text" class="form-control" name="materials" id="materials" required>
+                    <div class="invalid-feedback">
+                        Введите наименования и количество затраченных материалов .
+                    </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                    <label for="tool_name" class="form-label">Наименование оснастки</label>
+                    <input type="text" class="form-control" name="tool_name" id="tool_name" required>
+                    <div class="invalid-feedback">
+                        Введите наименование используемой оснастки.
+                    </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                    <label for="recipe" class="form-label">Рецепт</label>
+                    <input type="text" class="form-control" name="recipe" id="recipe" required>
+                    <div class="invalid-feedback">
+                        Введите наименование управляющей программы.
+                    </div>
+                    </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
