@@ -2,7 +2,6 @@ from flask import render_template, request, redirect, Blueprint, flash, url_for,
 from forms import LoginForm
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from werkzeug.urls import url_parse
 
 app_routes = Blueprint("app_routes", __name__)
 
@@ -11,7 +10,7 @@ app_routes = Blueprint("app_routes", __name__)
 @app_routes.route('/', methods=["POST", "GET"])
 #@login_required
 def index():
-    from app_tpp import db
+    from app import db
 
     data_product = db.engine.execute(
         f"SELECT prod_name FROM Tpp_config ORDER BY prod_name").all()
@@ -58,12 +57,13 @@ def login_page():
     if current_user.is_authenticated:
         return redirect('/')
     form = LoginForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
         user = User.query.filter_by(login=form.username.data).first()
         print(user)
         if user is None or not user.check_password(form.password.data):
             print('Invalid username or password')
-            return redirect('/login')
+            return redirect('/')
         login_user(user, remember=form.remember_me.data)
         return redirect('/')
     return render_template('login.html', form=form)
@@ -78,7 +78,7 @@ def logout():
 # Страница для заполнения отчета
 @app_routes.route('/form', methods=["POST", "GET"])
 def input_form_page():
-    from app_tpp import db
+    from app import db
     from models import Tpp
 
     if request.method == "POST":
@@ -132,7 +132,7 @@ def input_form_page():
 # Страница для конфигурирования ТПП
 @app_routes.route('/config_tpp', methods=["POST", "GET"])
 def config_tpp():
-    from app_tpp import db
+    from app import db
     from models import Tpp_config
 
     tpp_config = db.session.query(Tpp_config).all()
@@ -186,7 +186,7 @@ def config_tpp():
 # Страница обновления Tpp_config
 @app_routes.route('/config_user', methods=["POST", "GET"])
 def config_user():
-    from app_tpp import db
+    from app import db
     from models import User
     users = db.session.query(User).all()
     if request.method == "POST":
