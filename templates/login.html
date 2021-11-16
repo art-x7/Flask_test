@@ -13,18 +13,18 @@
 <div class="text-center" style="display: flex; padding-top: 40px; padding-bottom: 40px; align-items: center; justify-content: space-around;">
     <div class="p-5 mb-4 bg-light rounded-3 shadow">
         <h1 class="h3 mb-3 font-weight-normal">Войдите</h1>
-            <form class="form-signin" style="width: 100%; max-width: 330px; padding: 15px; margin: auto;">
+            <form class="form-signin" style="width: 100%; max-width: 330px; padding: 15px; margin: auto;" method="post">
                 {{ form.hidden_tag() }}
                 <p>
                     {{ form.username.label }}<br>
-                    {{ form.username(size=32) }}
+                    {{ form.username(class="form-control") }}
                     {% for error in form.username.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.password.label }}<br>
-                    {{ form.password(size=32) }}
+                    {{ form.password(class="form-control") }}
                     {% for error in form.password.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}

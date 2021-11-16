@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Редактирование
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container py-4">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow">
+        <div class="row align-items-md-stretch">
+            <form class="row g-3" method="post">
+				<h4>Редактирование ТПП</h4>
+				{{ form.hidden_tag() }}
+				<div class="col-sm-4">
+					<p>
+					{{ form.prod_name.label(class="form-label") }}<br>
+                    {{ form.prod_name(class="form-control", value=data_product[0][1]) }}
+                    {% for error in form.prod_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </p>    
+                </div>
+                <div class="col-sm-4">   
+                    <p>
+                    {{ form.tpp_stage.label(class="form-label") }}<br>
+                    {{ form.tpp_stage(class="form-control", value=data_product[0][2]) }}
+                    {% for error in form.tpp_stage.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </p>  
+                </div>
+                <div class="col-sm-4">
+                    <p>
+                    {{ form.tpp_numb.label(class="form-label") }}<br>
+                    {{ form.tpp_numb(class="form-control", value=data_product[0][3]) }}
+                    {% for error in form.tpp_numb.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </p>  
+                </div>
+                <div class="col-sm-4">
+                    <p>
+                    {{ form.prod_owner.label(class="form-label") }}<br>
+                    {{ form.prod_owner(class="form-control", value=data_product[0][4]) }}
+                    {% for error in form.prod_owner.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </p>  
+                </div>
+                <div class="col-sm-4">   
+                    <p>
+                    {{ form.comment.label(class="form-label") }}<br>
+                    {{ form.comment(class="form-control", value=data_product[0][5]) }}
+                    {% for error in form.comment.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </p> 
+                </div> 
+                <div class="col-sm-4">   
+                    <p>
+                    {{ form.status.label(class="form-label") }}<br>
+                    {{ form.status(class="form-control", value=data_product[0][6]) }}
+                    {% for error in form.status.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    </p> 
+                </div> 
+                <div class="py-3">
+                    <a href="/config_tpp">{{ form.submit(class="btn btn-m btn-primary btn-block") }}</a>
+                    
+                </div>     
+            </form>  
+        </div>
+    </div>
+</div>
+{% endblock %}

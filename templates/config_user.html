@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Редактирование
+Добавление пользователя
 {% endblock %}
 
 {% block body %}
@@ -46,9 +46,9 @@
                         {% for item in users %}
                         <tr>
                         <th scope="row" name="up_table_id">{{item.id}}</th>
-                        <td contenteditable='true' name="up_table_prod_name">{{item.login}}</td>
-                        <td contenteditable='true' name="up_table_prod_name">{{item.email}}</td>
-                        <td contenteditable='true' name="up_table_number">{{item.time.strftime("%m/%d/%Y")}}</td>
+                        <td name="up_table_prod_name">{{item.login}}</td>
+                        <td name="up_table_prod_name">{{item.email}}</td>
+                        <td name="up_table_number">{{item.time.strftime("%m/%d/%Y")}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

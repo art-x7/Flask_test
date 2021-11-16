@@ -1,4 +1,4 @@
-from app import db
+from main import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -37,6 +37,7 @@ class Tpp_config(db.Model):
     number = db.Column(db.Text, nullable=False)
     owner = db.Column(db.Text, nullable=False)
     comment = db.Column(db.Text, nullable=False)
+    status = db.Column(db.Text, nullable=False, default="Открыт")
 
     def __repr__(self):
         return f'<Tpp_config {self.id}>'

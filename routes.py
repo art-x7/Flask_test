@@ -1,16 +1,20 @@
-from flask import render_template, request, redirect, Blueprint, flash, url_for, session
-from forms import LoginForm
+from flask import render_template, request, redirect, Blueprint, flash, session
+from forms import LoginForm, TppConfigForm, TppConfigUpdate
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
+
+from config import Config
+
 
 app_routes = Blueprint("app_routes", __name__)
 
 
 # Основная страница
 @app_routes.route('/', methods=["POST", "GET"])
-#@login_required
 def index():
-    from app import db
+    from main import db
 
     data_product = db.engine.execute(
         f"SELECT prod_name FROM Tpp_config ORDER BY prod_name").all()
@@ -26,10 +30,10 @@ def index():
         process = request.form['list_process']
         tpp_stage = request.form['list_tpp_stage']
         prod_name = request.form['list_product']
-
+        
         if process == "":
             resume = db.engine.execute(
-                f"SELECT * FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}' ORDER BY process"
+                f"SELECT * FROM tpp WHERE prod_name='{prod_name}' AND tpp_stage='{tpp_stage}' ORDER BY id"
             ).all()
 
             sum_qty = db.engine.execute(
@@ -45,25 +49,22 @@ def index():
             ).all()[0]
 
         product = prod_name
-
+    
     return render_template('index.html', resume=resume, sum_qty=sum_qty, process_list=process_list, product=product, product_list=product_list)
 
 
 # Страница для входа
 @app_routes.route('/login', methods=['GET', 'POST'])
-def login_page():
+def login():
     from models import User
 
     if current_user.is_authenticated:
         return redirect('/')
     form = LoginForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         user = User.query.filter_by(login=form.username.data).first()
-        print(user)
         if user is None or not user.check_password(form.password.data):
-            print('Invalid username or password')
-            return redirect('/')
+            return redirect('/login')
         login_user(user, remember=form.remember_me.data)
         return redirect('/')
     return render_template('login.html', form=form)
@@ -72,14 +73,24 @@ def login_page():
 @app_routes.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect('/')
+
+# Проверка допустимого расширения для загрузки файла
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in Config.ALLOWED_EXTENSIONS
 
 
 # Страница для заполнения отчета
 @app_routes.route('/form', methods=["POST", "GET"])
+@login_required
 def input_form_page():
-    from app import db
+    from main import db
     from models import Tpp
+
+    data_product = db.engine.execute(
+                f"SELECT prod_name FROM Tpp_config WHERE status ='Открыт' ORDER BY prod_name").all()
+    product_list = {i[0] for i in data_product}
 
     if request.method == "POST":
         process = request.form['process_name']
@@ -99,24 +110,25 @@ def input_form_page():
         warpage = request.form['warpage']
         info = request.form['info']
         comment = request.form['comment']
-
+        user_id = current_user.id
         tpp = Tpp(process=process,
-                  tpp_stage=tpp_stage,
-                  prod_name=prod_name,
-                  lot_name=lot_name,
-                  qty_in=q_in,
-                  qty_out=q_out,
-                  defects=defects,
-                  materials=materials,
-                  tool_name=tool_name,
-                  recipe=recipe,
-                  time_s=time_s,
-                  time_p=time_p,
-                  uph=uph,
-                  wafer_name=wafer_name,
-                  warpage=warpage,
-                  info=info,
-                  comment=comment)
+                tpp_stage=tpp_stage,
+                prod_name=prod_name,
+                lot_name=lot_name,
+                qty_in=q_in,
+                qty_out=q_out,
+                defects=defects,
+                materials=materials,
+                tool_name=tool_name,
+                recipe=recipe,
+                time_s=time_s,
+                time_p=time_p,
+                uph=uph,
+                wafer_name=wafer_name,
+                warpage=warpage,
+                info=info,
+                comment=comment,
+                user_id=user_id)
 
         try:
             db.session.add(tpp)
@@ -125,68 +137,86 @@ def input_form_page():
         except:
             return "При добавление произошла ошибка"
 
-    else:
-        return render_template('form_for_tpp/form.html')
+    return render_template('form_for_tpp/form.html', product_list=product_list)
 
 
 # Страница для конфигурирования ТПП
 @app_routes.route('/config_tpp', methods=["POST", "GET"])
+@login_required
 def config_tpp():
-    from app import db
+    from main import db
     from models import Tpp_config
-
+    
+    form = TppConfigForm()
     tpp_config = db.session.query(Tpp_config).all()
-    if request.method == "POST":
-        if request.form["btn"] == "add":
-            prod_name = request.form['master_add_product']
-            tpp_stage = request.form['master_add_tpp_stage']
-            number = request.form['master_add_number']
-            owner = request.form['master_add_owner']
-            comment = request.form['master_comment']
-
-            config_product = Tpp_config(prod_name=prod_name,
-                                        tpp_stage=tpp_stage,
-                                        number=number,
-                                        owner=owner,
-                                        comment=comment)
-
+        
+    if form.validate_on_submit():
+        product = Tpp_config.query.filter_by(prod_name=form.prod_name.data, tpp_stage = form.tpp_stage.data,number=form.tpp_numb.data).first()
+        if product is None:
+            prod_name = form.prod_name.data
+            tpp_stage = form.tpp_stage.data
+            number = form.tpp_numb.data
+            owner = form.prod_owner.data
+            comment = form.comment.data
+            new_prod = Tpp_config(prod_name=prod_name, tpp_stage=tpp_stage, number=number, owner=owner, comment=comment)
             try:
-                db.session.add(config_product)
+                db.session.add(new_prod)
                 db.session.commit()
                 return redirect('/config_tpp')
             except:
                 return "При добавление произошла ошибка"
 
-        elif request.form["btn"] == "update":
-            id_table = request.form["up_table_id"]
-            prod_name_table = request.form['up_table_prod_name']
-            tpp_stage_table = request.form['up_table_tpp_stage']
-            number_table = request.form['up_table_number']
-            owner_table = request.form['up_table_owner']
-            comment_table = request.form['up_table_comment']
-
-            new_prod_name = Tpp_config.query.get(id_table)
-
-            try:
-                new_prod_name.prod_name = prod_name_table
-                new_prod_name.tpp_stage = tpp_stage_table
-                new_prod_name.number = number_table
-                new_prod_name.owner = owner_table
-                new_prod_name.comment = comment_table
-                db.session.add(new_prod_name)
-                db.session.commit()
-                return redirect('/config_tpp')
-            except:
-                return "При изменении произошла ошибка"
-
-    else:
-        return render_template('config_tpp.html', tpp_config=tpp_config)
+    return render_template('config_tpp.html', form=form, tpp_config=tpp_config)
 
 
-# Страница обновления Tpp_config
+# Изменение записи Tpp_config
+@app_routes.route('/update/<int:id>', methods=["POST", "GET"])
+def update_config_tpp(id):
+    from main import db
+    from models import Tpp_config
+
+    form = TppConfigUpdate()
+    data_product = db.engine.execute(
+        f"SELECT * FROM Tpp_config WHERE id={id}").all()
+       
+    product_to_update = Tpp_config.query.get_or_404(id)
+    if request.method == "POST":
+        product_to_update.prod_name = request.form["prod_name"]
+        product_to_update.tpp_stage = request.form["tpp_stage"]
+        product_to_update.number = request.form["tpp_numb"]
+        product_to_update.owner = request.form["prod_owner"]
+        product_to_update.comment = request.form["comment"]
+        product_to_update.status = request.form["status"]
+        try:
+            db.session.commit()
+            flash("Product Update Successfully!")
+            return redirect('/config_tpp')
+        except:
+            flash("Product Not Updated!")
+    return render_template('update.html', data_product=data_product, form=form)
+
+
+# Удаление записи Tpp_config
+@app_routes.route('/delete/<int:id>', methods=["POST", "GET"])
+def delete_config_tpp(id):
+    from main import db
+    from models import Tpp_config
+  
+    product_to_delete = Tpp_config.query.get_or_404(id)
+    try:
+        db.session.delete(product_to_delete)
+        db.session.commit()
+        flash("Product Deleted Successfully!")
+        return redirect('/config_tpp')
+    except:
+        flash("Product Not Deleted!")
+        return "При удаление произошла ошибка"
+    
+
+# Страница обновления config_user
 @app_routes.route('/config_user', methods=["POST", "GET"])
 def config_user():
-    from app import db
+    from main import db
     from models import User
     users = db.session.query(User).all()
     if request.method == "POST":
@@ -208,4 +238,4 @@ def config_user():
 # Страница для 404 ошибки
 @app_routes.errorhandler(404)
 def page_not_found(error):
-    return render_template('page404.html', error=error)
+    return render_template('404.html', error=error), 404

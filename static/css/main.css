@@ -12,12 +12,14 @@ body {
   }
 
 .table {
+  display: block;
   border-collapse: collapse;
   width: 100%;
+  overflow: auto;
 }
 
-th, td {
-  text-align: left;
+th, td { 
+  text-align: center;
   padding: 8px;
 }
 

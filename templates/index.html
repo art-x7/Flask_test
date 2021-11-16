@@ -8,42 +8,44 @@
 
 <div class="container py-5">
     <div class="row align-items-md-stretch">
-        <form class="col-md-3" method="post">
+        <form class="col-md-12" method="post">
             <div class="h-100 p-3 text-white bg-dark rounded-3 shadow" >
                 <h3>Фильтр</h3>
-                <div class="col-sm-12">
-                    <label for="list_product" class="form-label">Продукт</label>
-                    <select class="form-select" name="list_product" id="list_product" required>
-                        <option></option>
-                        {% for i in product_list %}
-                        <option>{{i}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-sm-12">   
-                    <label for="list_tpp_stage" class="form-label">Этап ТПП</label>
-                    <select class="form-select" name="list_tpp_stage" id="list_tpp_stage" required>
-                        <option></option>
-                        <option>ТПП единичных изделий</option>
-                        <option>ТПП серийных изделий</option>
-                    </select>
-                </div>
-                <div class="col-sm-12">    
-                    <label for="list_process" class="form-label">Процесс</label>
-                    <select class="form-select" name="list_process" id="list_process">
-                        <option></option>
-                        {% for i in process_list %}
-                        <option>{{i}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="py-3">
-                    <button class="btn btn-m btn-primary btn-block" type="submit"> Применить </button>
-                </div>
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <label for="list_product" class="form-label">Продукт</label>
+                        <select class="form-select" name="list_product" id="list_product" required>
+                            <option></option>
+                            {% for i in product_list %}
+                            <option>{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-4">   
+                        <label for="list_tpp_stage" class="form-label">Этап ТПП</label>
+                        <select class="form-select" name="list_tpp_stage" id="list_tpp_stage" required>
+                            <option></option>
+                            <option>ТПП единичных изделий</option>
+                            <option>ТПП серийных изделий</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">    
+                        <label for="list_process" class="form-label">Процесс</label>
+                        <select class="form-select" name="list_process" id="list_process">
+                            <option></option>
+                            {% for i in process_list %}
+                            <option>{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="py-3">
+                        <button class="btn btn-m btn-primary btn-block" type="submit"> Применить </button>
+                    </div>
+                </div>   
             </div>
         </form>
       
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="h-100 p-3 bg-light border rounded-3 shadow">
                 <div class="container-fluid py-3">
                     <h2 class="text-center">Отчет запуска нового изделия</h2>
@@ -64,10 +66,11 @@
                             <thead>
                                 <tr>
                                 <th scope="col">#id</th>
+                                <th scope="col">owner</th>
                                 <th scope="col">Процесс</th>
                                 <th scope="col">№ лота</th>
-                                <th scope="col">Входе</th>
-                                <th scope="col">Выходе</th>
+                                <th scope="col">Вход</th>
+                                <th scope="col">Выход</th>
                                 <th scope="col">Дефекты</th>
                                 <th scope="col">Рецепт</th> 
                                 <th scope="col">Материал</th>
@@ -79,6 +82,7 @@
                                 {% for item in resume %}
                                 <tr> 
                                 <th scope="row">{{item.id}}</th>
+                                <td>{{item.user_id}}</td>
                                 <td>{{item.process}}</td>
                                 <td>{{item.lot_name}}</td>
                                 <td>{{item.qty_in}}</td>

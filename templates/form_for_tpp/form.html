@@ -30,16 +30,14 @@
             Введите название продукта.
           </div>
         </div>
-        
-    
+
         <div class="col-sm-3">
           <label for="prod_name" class="form-label">Наименование продукта</label>
           <select class="form-select" name="prod_name" id="prod_name" required>
-            <option></option>
-            <option>GS1</option>
-            <option>NAND</option>
-            <option>Micron</option>
-            <option>1890</option>
+             <option></option>
+                {% for i in product_list %}
+                <option>{{i}}</option>
+                {% endfor %}
           </select>
         <div class="invalid-feedback">
           Введите название продукта.
@@ -58,7 +56,9 @@
         </div>
         </div>
 
-        <div class="col-sm-3">
+        <hr class="my-4">
+
+        <div class="col-sm-2">
           <label for="qty_in" class="form-label">Номер лота</label>
           <input type="text" class="form-control" name="lot_name" id="lot_name" required>
           <div class="invalid-feedback">
@@ -67,7 +67,7 @@
         </div>  
 
         <div class="col-sm-2">
-          <label for="qty_in" class="form-label">Колво на входе</label>
+          <label for="qty_in" class="form-label">Кол-во на входе</label>
           <input type="text" class="form-control" name="qty_in" id="qty_in" required>
           <div class="invalid-feedback">
             Введите кол-во микросхем на входе процесса.
@@ -82,8 +82,8 @@
           </div>
         </div>
 
-        <div class="col-sm-8">
-          <label for="defects" class="form-label">Дефекты <span class="text-muted">(кол-во)</span></label>
+        <div class="col-sm-6">
+          <label for="defects" class="form-label">Дефекты</label>
           <input type="text" class="form-control" name="defects" id="defects" required>
           <small class="text-muted">Укажи наименование дефектов и их кол-во через запятую</small>
           <div class="invalid-feedback">
@@ -91,6 +91,8 @@
           </div>
         </div>
 
+        <hr class="my-4">   
+        
         <div class="col-sm-6">
           <label for="materials" class="form-label">Затраченные материалы</label>
           <input type="text" class="form-control" name="materials" id="materials" required>
@@ -171,6 +173,10 @@
           <div class="invalid-feedback">
             Введите комментарий.
           </div>
+        <div class="col-sm-12">
+            <p><input type=file name=file></p>
+
+        </div>    
         </div>
         <div class="py-4 text-center">
           <button class="btn btn-lg btn-primary btn-block" type="submit"> Готово </button>
