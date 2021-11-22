@@ -14,42 +14,24 @@
         <div class="row g-3">
           <div class="col-sm-3">
             <label for="proces_name" class="form-label">Наименование процесса</label>
-            <select class="form-select" name="process_name" id="process_name" required >
-              <option></option>
-              <option>Pre-Assembly</option>
-              <option>Attach Print</option>
-              <option>Wire Bond</option>
-              <option>Molding</option>
-              <option>Ball Placing</option>
-              <option>Singulation</option>
-              <option>Functional Test</option>
-              <option>Test Gate</option>
-              <option>MSP</option>
+            <select class="form-select" name="process" id="process" required>
+                <option></option>
+                {% for i in process %}
+                <option>{{i.process}}</option>
+                {% endfor %}
             </select>
           <div class="invalid-feedback">
             Введите название продукта.
           </div>
         </div>
 
-        <div class="col-sm-3">
-          <label for="prod_name" class="form-label">Наименование продукта</label>
+        <div class="col-sm-6">
+          <label for="prod_name" class="form-label">Название ТПП</label>
           <select class="form-select" name="prod_name" id="prod_name" required>
              <option></option>
-                {% for i in product_list %}
-                <option>{{i}}</option>
+                {% for i in tpp_config %}
+                <option>{{i.prod_name}} {{i.tpp_stage}} (№{{i.number}})</option>
                 {% endfor %}
-          </select>
-        <div class="invalid-feedback">
-          Введите название продукта.
-        </div>
-        </div>
-
-        <div class="col-sm-3">
-          <label for="tpp_stage" class="form-label"> Этап ТПП</label>
-          <select class="form-select" name="tpp_stage" id="tpp_stage" required>
-            <option></option>
-            <option>ТПП единичных изделий</option>
-            <option>ТПП серийных изделий</option>
           </select>
         <div class="invalid-feedback">
           Введите название продукта.
@@ -93,17 +75,37 @@
 
         <hr class="my-4">   
         
-        <div class="col-sm-6">
-          <label for="materials" class="form-label">Затраченные материалы</label>
-          <input type="text" class="form-control" name="materials" id="materials" required>
+        <div class="col-sm-4">
+          <label for="materials" class="form-label">Материалы</label>
+          <select class="form-select" name="materials" id="materials" required>
+             <option></option>
+                {% for i in materials_choice %}
+                <option>{{i.material}}</option>
+                {% endfor %}
+          </select>
+          <div class="invalid-feedback">
+            Введите наименования и количество затраченных материалов .
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <label for="volume_materials" class="form-label">Кол-во</label>
+          <input type="number" class="form-control" name="volume_materials" id="volume_materials" required>
           <div class="invalid-feedback">
             Введите наименования и количество затраченных материалов .
           </div>
         </div>
 
         <div class="col-sm-3">
+          <label for="equipment" class="form-label">Наименование оборудования</label>
+          <input type="text" class="form-control" name="equipment" id="equipment">
+          <div class="invalid-feedback">
+            Введите наименование используемой оснастки.
+          </div>
+        </div>
+
+        <div class="col-sm-3">
           <label for="tool_name" class="form-label">Наименование оснастки</label>
-          <input type="text" class="form-control" name="tool_name" id="tool_name" required>
+          <input type="text" class="form-control" name="tool_name" id="tool_name">
           <div class="invalid-feedback">
             Введите наименование используемой оснастки.
           </div>
@@ -118,7 +120,7 @@
         </div>
 
         <div class="col-sm-3">
-          <label for="time_s" class="form-label">Время на выпуск продукта, ч</label>
+          <label for="time_s" class="form-label">Время на выпуск, ч</label>
           <input type="text" class="form-control" name="time_s" id="time_s" required>
           <div class="invalid-feedback">
             Введите затраченное время.
@@ -160,9 +162,9 @@
         </div>
 
         <div class="form-check">
-          <input type="checkbox" class="form-check-input" name="info" id="info" value="процесс не готов">
-          <input type="hidden" class="form-check-input" name="info" id="info" value="процесс готов">
-          <label class="form-check-label" for="info">Требуется дополнительная отладка технологического процесса.</label>
+          <input type="checkbox" class="form-check-input" name="willingness" id="willingness" value="процесс не готов">
+          <input type="hidden" class="form-check-input" name="willingness" id="willingness" value="процесс готов">
+          <label class="form-check-label" for="willingness">Требуется дополнительная отладка технологического процесса.</label>
         </div>
         
         <hr class="my-4">
@@ -173,10 +175,14 @@
           <div class="invalid-feedback">
             Введите комментарий.
           </div>
+        
         <div class="col-sm-12">
-            <p><input type=file name=file></p>
-
+          <label for="risk" class="form-label">Риски <span class="text-muted">(при необходимости)</span></label>
+          <textarea type="textarea" class="form-control" name="risk" id="risk" placeholder="n/a"></textarea>
+          <div class="invalid-feedback">
+            Введите комментарий.
         </div>    
+        
         </div>
         <div class="py-4 text-center">
           <button class="btn btn-lg btn-primary btn-block" type="submit"> Готово </button>

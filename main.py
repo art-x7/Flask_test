@@ -19,7 +19,6 @@ def load_user(id):
     from models import User
     return User.query.get(int(id))
 
-
 with app.app_context():
     from models import *
 

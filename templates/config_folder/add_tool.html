@@ -1,0 +1,55 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+Добавление оснастки
+{% endblock %} 
+
+{% block body %}
+
+<div class="container py-4">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow">
+        <div class="row align-items-md-stretch">
+            <form class="col-md-3" method="post">
+                <h4>Добавление оснастки</h4>
+                <div class="col-sm-12">
+                    <label for="equipment" class="form-label">Оборудование</label>
+                    <select class="form-select" name="equipment" required>
+                        <option></option>
+                        {% for i in equipments %}
+                        <option>{{i.main}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-12">
+                    <label for="tool" class="form-label">Оснастка</label>
+                    <input type="text" class="form-control" name="tool" required>
+                </div>
+                <div class="py-3">
+                    <button class="btn btn-m btn-primary btn-block" type="submit" name="btn" value="add"> Добавить </button>
+                </div>
+            </form>
+            <div class="col-md-9">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">#id</th>
+                        <th scope="col">Оборудование</th>
+                        <th scope="col">Оснастка</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in tools %}
+                        <tr>
+                        <th scope="row" name="table_id">{{item.id}}</th>
+                        <td name="process_name">{{item.tool}}</td>
+                        <td name="equipment_name">{{item.equipment_id}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+         </div>
+    </div>
+</div>
+
+{% endblock %}

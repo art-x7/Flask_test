@@ -16,7 +16,7 @@
 				<div class="col-sm-4">
 					<p>
 					{{ form.prod_name.label(class="form-label") }}<br>
-                    {{ form.prod_name(class="form-control", value=data_product[0][1]) }}
+                    {{ form.prod_name(class="form-control", value=data_product[0].prod_name) }}
                     {% for error in form.prod_name.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
@@ -25,7 +25,7 @@
                 <div class="col-sm-4">   
                     <p>
                     {{ form.tpp_stage.label(class="form-label") }}<br>
-                    {{ form.tpp_stage(class="form-control", value=data_product[0][2]) }}
+                    {{ form.tpp_stage(class="form-control", value=data_product[0].tpp_stage) }}
                     {% for error in form.tpp_stage.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
@@ -34,7 +34,7 @@
                 <div class="col-sm-4">
                     <p>
                     {{ form.tpp_numb.label(class="form-label") }}<br>
-                    {{ form.tpp_numb(class="form-control", value=data_product[0][3]) }}
+                    {{ form.tpp_numb(class="form-control", value=data_product[0].number) }}
                     {% for error in form.tpp_numb.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
@@ -43,7 +43,7 @@
                 <div class="col-sm-4">
                     <p>
                     {{ form.prod_owner.label(class="form-label") }}<br>
-                    {{ form.prod_owner(class="form-control", value=data_product[0][4]) }}
+                    {{ form.prod_owner(class="form-control", value=data_product[0].owner) }}
                     {% for error in form.prod_owner.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
@@ -52,7 +52,7 @@
                 <div class="col-sm-4">   
                     <p>
                     {{ form.comment.label(class="form-label") }}<br>
-                    {{ form.comment(class="form-control", value=data_product[0][5]) }}
+                    {{ form.comment(class="form-control", value=data_product[0].comment) }}
                     {% for error in form.comment.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
@@ -61,7 +61,7 @@
                 <div class="col-sm-4">   
                     <p>
                     {{ form.status.label(class="form-label") }}<br>
-                    {{ form.status(class="form-control", value=data_product[0][6]) }}
+                    {{ form.status(class="form-control", value=data_product[0].status) }}
                     {% for error in form.status.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
