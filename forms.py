@@ -23,8 +23,6 @@ class TppConfigForm(FlaskForm):
 class TppConfigUpdate(FlaskForm):
     choices = ["ТПП единичных изделий", "ТПП серийных изделий"]
     prod_name = StringField('Наименование продукта', validators=[DataRequired()])
-    tpp_stage = SelectField('Этап ТПП', choices=choices, validators=[DataRequired()])
-    tpp_numb = IntegerField('Номер ТПП', validators=[DataRequired()])
     prod_owner = StringField('Фамилия менеджера проекта', validators=[DataRequired()])
     comment = StringField('Комментарий')
     status = StringField('Статус', validators=[DataRequired()])

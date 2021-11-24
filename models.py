@@ -34,9 +34,7 @@ class Tpp(db.Model):
 
 class Tpp_config(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    prod_name = db.Column(db.Text, nullable=False)
-    tpp_stage = db.Column(db.Text, nullable=False)
-    number = db.Column(db.Text, nullable=False)
+    prod_sum = db.Column(db.Text, nullable=False)
     owner = db.Column(db.Text, nullable=False)
     comment = db.Column(db.Text, nullable=False)
     status = db.Column(db.Text, nullable=False, default="Открыт")

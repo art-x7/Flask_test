@@ -16,29 +16,11 @@
 				<div class="col-sm-4">
 					<p>
 					{{ form.prod_name.label(class="form-label") }}<br>
-                    {{ form.prod_name(class="form-control", value=data_product[0].prod_name) }}
+                    {{ form.prod_name(class="form-control", value=data_product[0].prod_sum) }}
                     {% for error in form.prod_name.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                     </p>    
-                </div>
-                <div class="col-sm-4">   
-                    <p>
-                    {{ form.tpp_stage.label(class="form-label") }}<br>
-                    {{ form.tpp_stage(class="form-control", value=data_product[0].tpp_stage) }}
-                    {% for error in form.tpp_stage.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                    </p>  
-                </div>
-                <div class="col-sm-4">
-                    <p>
-                    {{ form.tpp_numb.label(class="form-label") }}<br>
-                    {{ form.tpp_numb(class="form-control", value=data_product[0].number) }}
-                    {% for error in form.tpp_numb.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                    </p>  
                 </div>
                 <div class="col-sm-4">
                     <p>

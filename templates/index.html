@@ -16,24 +16,16 @@
                         <label for="list_product" class="form-label">Продукт</label>
                         <select class="form-select" name="list_product" id="list_product" required>
                             <option></option>
-                            {% for i in product_list %}
-                            <option>{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-sm-4">   
-                        <label for="list_tpp_stage" class="form-label">Этап ТПП</label>
-                        <select class="form-select" name="list_tpp_stage" id="list_tpp_stage" required>
-                            <option></option>
-                            <option>ТПП единичных изделий</option>
-                            <option>ТПП серийных изделий</option>
+                                {% for i in tpp_config %}
+                                <option>{{i.prod_sum}}</option>
+                                {% endfor %}
                         </select>
                     </div>
                     <div class="col-sm-4">    
                         <label for="list_process" class="form-label">Процесс</label>
                         <select class="form-select" name="list_process" id="list_process">
                             <option></option>
-                            {% for i in process_list %}
+                            {% for i in process_choise %}
                             <option>{{i}}</option>
                             {% endfor %}
                         </select>
@@ -49,7 +41,7 @@
             <div class="h-100 p-3 bg-light border rounded-3 shadow">
                 <div class="container-fluid py-3">
                     <h2 class="text-center">Отчет запуска нового изделия</h2>
-                    <h4 class="text-center py-4m">{{product}}</h4>
+                    <h4 class="text-center py-4m">{{title_product}}</h4>
                         <p>Общее кол-во на входе: {{sum_qty[0]}} шт.</p>
                         <p>Общее кол-во на выходе: {{sum_qty[1]}} шт. </p>
                         {% if sum_qty[0] == None %}

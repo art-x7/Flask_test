@@ -70,8 +70,6 @@
                         <tr>
                         <th scope="col">#id</th>
                         <th scope="col">Наименование продукта</th>
-                        <th scope="col">Стадия ТПП</th>
-                        <th scope="col">Номер ТПП</th>   
                         <th scope="col">Менеджер</th>   
                         <th scope="col">Комментарий</th>  
                         <th scope="col">Статус</th>  
@@ -81,9 +79,7 @@
                         {% for item in tpp_config %}
                         <tr> 
                         <th scope="row" name="up_table_id">{{item.id}}</th>
-                        <td name="up_table_prod_name"><a href="/update/{{item.id}}"> {{item.prod_name}} </a></td>
-                        <td name="up_table_tpp_stage">{{item.tpp_stage}}</td>
-                        <td name="up_table_number">{{item.number}}</td>
+                        <td name="up_table_prod_name"><a href="/update/{{item.id}}"> {{item.prod_sum}} </a></td>
                         <td name="up_table_owner">{{item.owner}}</td>
                         <td name="up_table_comment">{{item.comment}}</td>    <td name="up_table_status">{{item.status}}</td>
                         <td>

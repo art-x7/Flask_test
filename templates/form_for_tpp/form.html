@@ -13,10 +13,10 @@
       <form class="container needs-validation" method="post"> 
         <div class="row g-3">
           <div class="col-sm-3">
-            <label for="proces_name" class="form-label">Наименование процесса</label>
-            <select class="form-select" name="process" id="process" required>
+            <label for="process_name" class="form-label">Наименование процесса</label>
+            <select class="form-select" name="process_name" id="process_name"required>
                 <option></option>
-                {% for i in process %}
+                {% for i in process_choice %}
                 <option>{{i.process}}</option>
                 {% endfor %}
             </select>
@@ -30,7 +30,7 @@
           <select class="form-select" name="prod_name" id="prod_name" required>
              <option></option>
                 {% for i in tpp_config %}
-                <option>{{i.prod_name}} {{i.tpp_stage}} (№{{i.number}})</option>
+                <option>{{i.prod_sum}}</option>
                 {% endfor %}
           </select>
         <div class="invalid-feedback">
@@ -97,18 +97,22 @@
 
         <div class="col-sm-3">
           <label for="equipment" class="form-label">Наименование оборудования</label>
-          <input type="text" class="form-control" name="equipment" id="equipment">
-          <div class="invalid-feedback">
-            Введите наименование используемой оснастки.
-          </div>
+            <select class="form-select" name="equipment" required>
+                <option></option>
+                {% for i in equipment_choice %}
+                <option>{{i.main}}</option>
+                {% endfor %}
+            </select>
         </div>
 
         <div class="col-sm-3">
           <label for="tool_name" class="form-label">Наименование оснастки</label>
-          <input type="text" class="form-control" name="tool_name" id="tool_name">
-          <div class="invalid-feedback">
-            Введите наименование используемой оснастки.
-          </div>
+            <select class="form-select" name="tool_name" required>
+                <option></option>
+                {% for i in tool_choice %}
+                <option>{{i.tool}}</option>
+                {% endfor %}
+            </select>
         </div>
 
         <div class="col-sm-3">
