@@ -6,6 +6,8 @@
 
 {% block body %}
 
+
+
 <div class="container py-5">
     <div class="row align-items-md-stretch">
         <form class="col-md-12" method="post">
@@ -16,9 +18,9 @@
                         <label for="list_product" class="form-label">Продукт</label>
                         <select class="form-select" name="list_product" id="list_product" required>
                             <option></option>
-                                {% for i in tpp_config %}
-                                <option>{{i.prod_sum}}</option>
-                                {% endfor %}
+                            {% for i in tpp_config %}
+                            <option>{{i.prod_sum}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="col-sm-4">    
@@ -66,24 +68,26 @@
                                 <th scope="col">Дефекты</th>
                                 <th scope="col">Рецепт</th> 
                                 <th scope="col">Материал</th>
-                                <th scope="col">Оснастка</th>
+                                <th scope="col">Оборудование</th>
+                                <th scope="col">Риски</th>  
                                 <th scope="col">Комментарий</th>            
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for item in resume %}
+                                {% for tpp, process, user, materials, equipment, tool in result %}
                                 <tr> 
-                                <th scope="row">{{item.id}}</th>
-                                <td>{{item.user_id}}</td>
-                                <td>{{item.process}}</td>
-                                <td>{{item.lot_name}}</td>
-                                <td>{{item.qty_in}}</td>
-                                <td>{{item.qty_out}}</td>
-                                <td>{{item.defects}}</td>
-                                <td>{{item.recipe}}</td>
-                                <td>{{item.materials}}</td>
-                                <td>{{item.tool_name}}</td>
-                                <td>{{item.comment}}</td>            
+                                <th scope="row">{{tpp.id}}</th>
+                                <td>{{user.login}}</td>
+                                <td>{{process.process}}</td>
+                                <td>{{tpp.lot_name}}</td>
+                                <td>{{tpp.qty_in}}</td>
+                                <td>{{tpp.qty_out}}</td>
+                                <td>{{tpp.defects}}</td>
+                                <td>{{tpp.recipe}}</td>
+                                <td>{{materials.material}}</td>
+                                <td>{{equipment.main}} / {{tool.tool}}</td>
+                                <td>{{tpp.risk}}</td>
+                                <td>{{tpp.comment}}</td>                       
                                 </tr>
                                 {% endfor %}
                             </tbody>

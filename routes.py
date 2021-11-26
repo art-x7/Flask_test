@@ -1,19 +1,31 @@
-from config import Config
-
 from flask import render_template, request, redirect, Blueprint, session
 from forms import LoginForm, TppConfigForm, TppConfigUpdate
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
 
+from config import Config
+
 
 app_routes = Blueprint("app_routes", __name__)
+
+# Удаление пробелов до и после текста
+def del_space_string(string):
+    new_string = ' '.join(string.split())
+    return new_string
+
+
+# Проверка допустимого расширения для загрузки файла
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in Config.ALLOWED_EXTENSIONS
+
 
 # Основная страница
 @app_routes.route('/main', methods=["POST", "GET"])
 @login_required
 def index():
     from main import db
-    from models import Tpp, Tpp_config, Process
+    from models import Tpp, Tpp_config, Process, User, Materials, Equipment, Tool
 
     tpp_config = db.session.query(Tpp_config).filter_by(status="Открыт", del_status=True).all()
 
@@ -25,24 +37,25 @@ def index():
         process_choise.append(process)
 
     title_product = [""][0]
-    resume = []
+    result = []
     sum_qty = [None, None]
     if request.method == "POST":
         prod_sum = request.form['list_product']
         process = request.form['list_process']
         prod_id = db.session.query(Tpp_config.id).filter_by(prod_sum=prod_sum).first()[0]
-        process_id = db.session.query(Process.id).filter_by(process=process).first()[0]
-        resume_params = {'prod_id': prod_id}
-        query = f"SELECT SUM(qty_in), SUM(qty_out) FROM tpp WHERE prod_id='{prod_id}'"
+        
+        result = db.session.query(Tpp, Process, User, Materials, Equipment, Tool).select_from(Tpp).join(Materials).join(Tool).join(Equipment).join(Process).join(User).filter(Tpp.prod_id == prod_id).all()
 
+        query = f"SELECT SUM(qty_in), SUM(qty_out) FROM tpp WHERE prod_id='{prod_id}'"
         if process != "":
-            resume_params = resume_params.update({'process_id': process_id})
+            process_id = db.session.query(Process.id).filter_by(process=process).first()[0]
+            result = db.session.query(Tpp, Process, User, Materials, Equipment, Tool).select_from(Tpp).join(Materials).join(Tool).join(Equipment).join(Process).join(User).filter(Tpp.process_id == process_id, Tpp.prod_id == prod_id).all()
             query = query + f" AND process_id='{process_id}'"
-        resume = db.session.query(Tpp).filter_by(**resume_params).all()
+
         sum_qty = db.engine.execute(query).all()[0]
         title_product = prod_sum
-    
-    return render_template('index.html', resume=resume, sum_qty=sum_qty, title_product=title_product, tpp_config=tpp_config, process_choise=process_choise)
+
+    return render_template('index.html', result=result, sum_qty=sum_qty, title_product=title_product, tpp_config=tpp_config, process_choise=process_choise)
 
 
 # Вход/выход
@@ -67,11 +80,6 @@ def login():
 def logout():
     logout_user()
     return redirect('/')
-
-# Проверка допустимого расширения для загрузки файла
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in Config.ALLOWED_EXTENSIONS
 
 
 # Страница для заполнения отчета
@@ -254,10 +262,9 @@ def add_materials():
         unit = request.form['unit']
         process_id = db.session.query(Process.id).filter_by(process=process_name).all()[0][0]
         
-        check_material = db.session.query(Materials).filter_by(material=material_name).first()
+        check_material = db.session.query(Materials).filter_by(material=del_space_string(material_name)).first()
         if check_material is None:
-            add_material = Materials(process_id=process_id, material=material_name, unit=unit)
-        
+            add_material = Materials(process_id=process_id, material=del_space_string(material_name), unit=del_space_string(unit))
             try:
                 db.session.add(add_material)
                 db.session.commit()
@@ -277,10 +284,9 @@ def add_process():
     if request.method == "POST":
         new_process = request.form['add_process']
         
-        check_process = db.session.query(Process).filter_by(process=new_process).first()
+        check_process = db.session.query(Process).filter_by(process=del_space_string(new_process)).first()
         if check_process is None:
-            add_process = Process(process=new_process)
-        
+            add_process = Process(process=del_space_string(new_process))   
             try:
                 db.session.add(add_process)
                 db.session.commit()
@@ -305,9 +311,9 @@ def add_equipment():
         equipment = request.form['equipment']
         process_id = db.session.query(Process.id).filter_by(process=process_name).all()[0][0]
     
-        check_equipment = db.session.query(Equipment).filter_by(main=equipment).first()
+        check_equipment = db.session.query(Equipment).filter_by(main=del_space_string(equipment)).first()
         if check_equipment is None:
-            add_equipment = Equipment(process_id=process_id, main=equipment)
+            add_equipment = Equipment(process_id=process_id, main=del_space_string(equipment))
             try:
                 db.session.add(add_equipment)
                 db.session.commit()
@@ -333,9 +339,9 @@ def add_tool():
         tool = request.form['tool']
         equipment_id = db.session.query(Equipment.id).filter_by(main=equipment_name).all()[0][0]
         
-        check_tool = db.session.query(Tool).filter_by(tool=tool).first()
+        check_tool = db.session.query(Tool).filter_by(tool=del_space_string(tool)).first()
         if check_tool is None:
-            add_tool = Tool(tool=tool, equipment_id=equipment_id)
+            add_tool = Tool(tool=del_space_string(tool), equipment_id=equipment_id)
             try:
                 db.session.add(add_tool)
                 db.session.commit()
