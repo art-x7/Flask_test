@@ -8,18 +8,9 @@
 
 <div class="container py-4">
     <div class="p-5 mb-4 bg-light rounded-3 shadow">
+        <h4 class="text-center">Добавление оборудования для {{process}}</h4>
         <div class="row align-items-md-stretch">
             <form class="col-md-3" method="post">
-                <h4>Добавление оборудования</h4>
-                <div class="col-sm-12">
-                    <label for="process" class="form-label">Название процесса</label>
-                    <select class="form-select" name="process" required>
-                        <option></option>
-                        {% for i in process %}
-                        <option>{{i.process}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
                 <div class="col-sm-12">
                     <label for="equipment" class="form-label">Оборудование</label>
                     <input type="text" class="form-control" name="equipment" required>
@@ -38,11 +29,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in equipments %}
+                        {% for process, equipment in equipments %}
                         <tr>
-                        <th scope="row" name="table_id">{{item.id}}</th>
-                        <td name="process_name">{{item.process_id}}</td>
-                        <td name="equipment_name">{{item.main}}</td>
+                        <th scope="row" name="table_id">{{equipment.id}}</th>
+                        <td name="process_name">{{process.process}}</td>
+                        <td name="equipment_name">{{equipment.main}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -50,6 +41,7 @@
             </div>
          </div>
     </div>
+    <a class="btn btn-primary btn-sm" href="/{{process}}">Назад</a>
 </div>
 
 {% endblock %}

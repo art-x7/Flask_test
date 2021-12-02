@@ -13,9 +13,12 @@
                 <h4>Добавление процесса</h4>
                 <div class="col-sm-12">
                     <label for="add_process" class="form-label">Процесс</label>
-                    <input type="text" class="form-control" name="add_process" id="add_process" required>
+                    <input type="text" class="form-control" name="add_process" required>
                 </div>
-                
+                <div class="col-sm-12">
+                    <label for="branch" class="form-label">Отрасль</label>
+                    <input type="text" class="form-control" name="branch" required>
+                </div>
                 <div class="py-3">
                     <button class="btn btn-m btn-primary btn-block" type="submit" name="btn" value="add"> Добавить </button>
                 </div>
@@ -26,6 +29,7 @@
                         <tr>
                         <th scope="col">#id</th>
                         <th scope="col">Процесс</th>
+                        <th scope="col">Отрасль</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +37,7 @@
                         <tr>
                         <th scope="row" name="up_table_id">{{item.id}}</th>
                         <td name="up_table_prod_name">{{item.process}}</td>
+                        <td name="up_table_prod_name">{{item.branch}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

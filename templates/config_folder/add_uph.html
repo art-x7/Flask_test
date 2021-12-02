@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+
+{% block title %} 
+Добавить UPH 
+{% endblock %} 
+
+{% block body %}
+
+
+<div class="container py-4">
+	<div class="p-5 mb-4 bg-light rounded-3 shadow">
+		<div class="row align-items-md-stretch">
+            <div class="col-md-12">   
+                <table class="table table-hover" method="post">
+                    <thead>
+                        <tr>
+                        <th scope="col">#id</th>
+                        <th scope="col">Наименование продукта</th> 
+                        <th scope="col">Планируемый UPH</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in tpp_config %}
+                        <tr> 
+                        <th scope="row" name="prod_id">{{item.id}}</th>
+                        <td name="prod_name"><a href="{{ url_for('.update_uph', process=process, id=item.id ) }}"> {{item.prod_sum}} </a></td> 
+                        <td name="add_uph"></td> 
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                  
+            </div>    
+         </div>      
+    </div>
+</div>
+
+
+{% endblock %}

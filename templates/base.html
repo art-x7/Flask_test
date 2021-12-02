@@ -28,40 +28,24 @@
 </body>
 <footer class="container pt-4 my-md-5 pt-md-5 border-top">
     <div class="text-center row">
-      <div class="col-6 col-md">
-        <h5>GSN</h5>
-        <ul class="list-unstyled text-small">
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Pre-Assembly</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Attach Print</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Wire Bond</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Molding</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Ball Placing</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Singulation</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Test</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Personalization</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">MSP</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5>LED</h5>
-        <ul class="list-unstyled text-small">
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Attach Print </a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Wire bond</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Silicone</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Singulation</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Binning test</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Taping</a></li>
-        </ul>
-      </div>
+        {% for item in branch_footer %}   
+        <div class="col-6 col-md">
+            <h5>{{item.branch}}</h5>
+            <ul class="list-unstyled text-small">
+                {% for i in process_footer %}
+                {% if i.branch == item.branch %}
+                <li class="mb-1"><a class="link-secondary text-decoration-none" href="/{{i.process}}">{{i.process}}</a></li>
+                {% endif%}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
       <div class="col-6 col-md">
         <h5>Config</h5>
         <ul class="list-unstyled text-small">
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/config_tpp">Tpp</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/config_user">Users</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/add_materials">Materials</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/add_process">Process</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/add_equipment">Equipment</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/add_tool">Tool</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="{{ url_for('.config_tpp') }}">Tpp</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="{{ url_for('.config_user') }}">Users</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="{{ url_for('.add_process') }}">Process</a></li>
         </ul>
       </div>
     </div>

@@ -4,6 +4,9 @@ body {
   background-color: #f5f5f5;
 }
 
+.td {
+     text-decoration: none;
+}
 
 .shadow {
   background: #ffcc00; 

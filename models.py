@@ -69,7 +69,7 @@ class Materials(db.Model):
     unit = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f'<Materials {self.id} of {self.name}>'
+        return f'<Materials {self.id} of {self.material}>'
 
 
 class Equipment(db.Model):
@@ -94,6 +94,17 @@ class Tool(db.Model):
 class Process(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     process = db.Column(db.Text, nullable=False)
+    branch = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         return f'<Process {self.id} of {self.process}>'
+
+
+class Uph(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tpp_id = db.Column(db.Integer, db.ForeignKey('tpp_config.id'))
+    process_id = db.Column(db.Integer, db.ForeignKey('process.id'))
+    plan_uph = db.Column(db.Integer, nullable=False) 
+    
+    def __repr__(self):
+        return f'<Uph {self.id}>'
