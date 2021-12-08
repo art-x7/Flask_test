@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 
 {% block title %} 
-Добавить UPH 
+UPH {{process}}
 {% endblock %} 
 
 {% block body %}
@@ -20,7 +20,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in tpp_config %}
+                        {% for item in tpp_name %}
                         <tr> 
                         <th scope="row" name="prod_id">{{item.id}}</th>
                         <td name="prod_name"><a href="{{ url_for('.update_uph', process=process, id=item.id ) }}"> {{item.prod_sum}} </a></td> 

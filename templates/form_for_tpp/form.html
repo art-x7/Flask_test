@@ -10,189 +10,113 @@
   <div class="p-5 mb-4 bg-light rounded-3 shadow">
     <div class="container-fluid py-3">
       <h1 class="title_h1">Отчет ТПП</h1>
-      <form class="container needs-validation" method="post"> 
+      <form class="container needs-validation" method="post" enctype=multipart/form-data> 
         <div class="row g-3">
-          <div class="col-sm-3">
-            <label for="process_name" class="form-label">Наименование процесса</label>
-            <select class="form-select" name="process_name" id="process_name"required>
-                <option></option>
-                {% for i in process_choice %}
-                <option>{{i.process}}</option>
-                {% endfor %}
-            </select>
-          <div class="invalid-feedback">
-            Введите название продукта.
-          </div>
-        </div>
-
+          
         <div class="col-sm-6">
-          <label for="prod_name" class="form-label">Название ТПП</label>
-          <select class="form-select" name="prod_name" id="prod_name" required>
-             <option></option>
+            <label for="prod_name" class="form-label">Название ТПП</label>
+            <select class="form-select" name="prod_name" id="prod_name" required>
+                <option></option>
                 {% for i in tpp_config %}
                 <option>{{i.prod_sum}}</option>
                 {% endfor %}
-          </select>
-        <div class="invalid-feedback">
-          Введите название продукта.
+            </select>
         </div>
+        
+        <div class="col-sm-3">
+            <label for="time_s" class="form-label">Время на выпуск, ч</label>
+            <input type="number" class="form-control" name="time_s" id="time_s" min=0 required>
+        </div>
+
+        <div class="col-sm-3">
+            <label for="time_p" class="form-label">Время на подготовку, ч</label>
+            <input type="number" class="form-control" name="time_p" id="time_p" min=0 required>
         </div>
 
         <hr class="my-4">
 
-        <div class="col-sm-2">
-          <label for="qty_in" class="form-label">Номер лота</label>
-          <input type="text" class="form-control" name="lot_name" id="lot_name" required>
-          <div class="invalid-feedback">
-            Введите кол-во микросхем на входе процесса.
-          </div>
-        </div>  
+        <div class="col-sm-6">
+            <label for="lot_name" class="form-label">Номер лота</label>
+            <textarea type="textarea" class="form-control" name="lot_name" id="lot_name"></textarea>
+        </div> 
+        
+        <div class="col-sm-6">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th scope="col">Номер лота</th>
+                    <th scope="col">Вход</th>
+                    <th scope="col">Выход</th>
+                    <th scope="col">Дефект</th>
+                    <th scope="col">Кол-во</th>   
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr> 
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>                 
+                    </tr>
+                </tbody>
+            </table>
+        </div> 
+        <div class="py-4">
+            <button class="btn btn-sm btn-secondary btn-block" type="submit"> cmNavigo </button>
+        </div>            
+        <hr class="my-4">   
 
-        <div class="col-sm-2">
-          <label for="qty_in" class="form-label">Кол-во на входе</label>
-          <input type="text" class="form-control" name="qty_in" id="qty_in" required>
-          <div class="invalid-feedback">
-            Введите кол-во микросхем на входе процесса.
-          </div>
+        <div class="col-sm-4">
+            <label for="recipe" class="form-label">Рецепт</label>
+            <textarea type="textarea" class="form-control" name="recipe" id="recipe" required></textarea>
         </div>
 
-        <div class="col-sm-2">
-          <label for="qty_out" class="form-label">Кол-во на выходе</label>
-          <input type="text" class="form-control" name="qty_out" id="qty_out" required>
-          <div class="invalid-feedback">
-            Введите кол-во микросхем на выходе процесса.
-          </div>
+        <div class="col-sm-4">
+            <label for="materials" class="form-label">Материалы</label>
+            <textarea type="textarea" class="form-control" name="materials" id="materials"></textarea>
+        </div>
+        
+        <div class="col-sm-4">
+            <label for="equipment" class="form-label">Наименование оборудования/оснастки</label>
+            <textarea type="textarea" class="form-control" name="equipment" id="equipment"></textarea>
+        </div>
+
+        <hr class="my-4">
+        
+        <div class="col-sm-6">
+            <label for="wafer_name" class="form-label">Название пластины <span class="text-muted">(при необходимости)</span></label>
+            <textarea type="textarea" class="form-control" name="wafer_name" id="wafer_name"></textarea>
         </div>
 
         <div class="col-sm-6">
-          <label for="defects" class="form-label">Дефекты</label>
-          <input type="text" class="form-control" name="defects" id="defects" required>
-          <small class="text-muted">Укажи наименование дефектов и их кол-во через запятую</small>
-          <div class="invalid-feedback">
-            Введите виды и количество дефектов.
-          </div>
-        </div>
-
-        <hr class="my-4">   
-        
-        <div class="col-sm-4">
-          <label for="materials" class="form-label">Материалы</label>
-          <select class="form-select" name="materials" id="materials" required>
-             <option></option>
-                {% for i in materials_choice %}
-                <option>{{i.material}}</option>
-                {% endfor %}
-          </select>
-          <div class="invalid-feedback">
-            Введите наименования и количество затраченных материалов .
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <label for="volume_materials" class="form-label">Кол-во</label>
-          <input type="number" class="form-control" name="volume_materials" id="volume_materials" min=0 required>
-          <div class="invalid-feedback">
-            Введите наименования и количество затраченных материалов .
-          </div>
-        </div>
-
-        <div class="col-sm-3">
-          <label for="equipment" class="form-label">Наименование оборудования</label>
-            <select class="form-select" name="equipment" required>
-                <option></option>
-                {% for i in equipment_choice %}
-                <option>{{i.main}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="col-sm-3">
-          <label for="tool_name" class="form-label">Наименование оснастки</label>
-            <select class="form-select" name="tool_name" required>
-                <option></option>
-                {% for i in tool_choice %}
-                <option>{{i.tool}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="col-sm-3">
-          <label for="recipe" class="form-label">Рецепт</label>
-          <input type="text" class="form-control" name="recipe" id="recipe" required>
-          <div class="invalid-feedback">
-            Введите наименование управляющей программы.
-          </div>
-        </div>
-
-        <div class="col-sm-3">
-          <label for="time_s" class="form-label">Время на выпуск, ч</label>
-          <input type="text" class="form-control" name="time_s" id="time_s" required>
-          <div class="invalid-feedback">
-            Введите затраченное время.
-          </div>
-        </div>
-
-        <div class="col-sm-3">
-          <label for="time_p" class="form-label">Время на подготовку, ч</label>
-          <input type="text" class="form-control" name="time_p" id="time_p" required>
-          <div class="invalid-feedback">
-            Введите затраченное время.
-          </div>
-        </div>
-
-        <div class="col-sm-3">
-          <label for="uph" class="form-label">UPH</label>
-          <input type="text" class="form-control" name="uph" id="uph" required>
-          <div class="invalid-feedback">
-            Введите UPH.
-          </div>
-        </div>
-
-        <hr class="my-4">
-        
-        <div class="col-sm-4">
-          <label for="wafer_name" class="form-label">Название пластины <span class="text-muted">(при необходимости)</span></label>
-          <input type="text" class="form-control" name="wafer_name" id="wafer_name" placeholder="n/a">
-          <div class="invalid-feedback">
-            Введите название пластины.
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <label for="warpage" class="form-label">Коробление <span class="text-muted">(при необходимости)</span></label>
-          <input type="text" class="form-control" name="warpage" id="warpage" placeholder="n/a">
-          <div class="invalid-feedback">
-            Введите коробление подложки.
-          </div>
+            <label for="warpage" class="form-label">Коробление <span class="text-muted">(при необходимости)</span></label>
+            <input type="text" class="form-control" name="warpage" id="warpage" placeholder="n/a">
         </div>
 
         <div class="form-check">
-          <input type="checkbox" class="form-check-input" name="willingness" id="willingness" value="процесс не готов">
-          <input type="hidden" class="form-check-input" name="willingness" id="willingness" value="процесс готов">
-          <label class="form-check-label" for="willingness">Требуется дополнительная отладка технологического процесса.</label>
+            <input type="checkbox" class="form-check-input" name="willingness" id="willingness" value="процесс не готов">
+            <input type="hidden" class="form-check-input" name="willingness" id="willingness" value="процесс готов">
+            <label class="form-check-label" for="willingness">Требуется дополнительная отладка технологического процесса.</label>
         </div>
         
         <hr class="my-4">
 
         <div class="col-sm-12">
-          <label for="comment" class="form-label">Комментарий <span class="text-muted">(при необходимости)</span></label>
-          <textarea type="textarea" class="form-control" name="comment" id="comment" placeholder="n/a"></textarea>
-          <div class="invalid-feedback">
-            Введите комментарий.
-          </div>
+            <label for="comment" class="form-label">Комментарий <span class="text-muted">(при необходимости)</span></label>
+            <textarea type="textarea" class="form-control" name="comment" id="comment" placeholder="n/a"></textarea>
+        </div>
         
         <div class="col-sm-12">
-          <label for="risk" class="form-label">Риски <span class="text-muted">(при необходимости)</span></label>
-          <textarea type="textarea" class="form-control" name="risk" id="risk" placeholder="n/a"></textarea>
-          <div class="invalid-feedback">
-            Введите комментарий.
+            <label for="risk" class="form-label">Риски <span class="text-muted">(при необходимости)</span></label>
+            <textarea type="textarea" class="form-control" name="risk" id="risk" placeholder="n/a"></textarea>
         </div>    
         
-        </div>
-        <p><input type=file name=file>
-         <input type=submit value=Upload>
-         
+        <div class="col-sm-12">
+            <p><input type=file name=file multiple>
+        </div> 
         <div class="py-4 text-center">
-          <button class="btn btn-lg btn-primary btn-block" type="submit"> Готово </button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"> Готово </button>
         </div>
       </form>
     </div>

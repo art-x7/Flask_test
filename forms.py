@@ -36,6 +36,7 @@ class ConfigMaterials(FlaskForm):
     unit = StringField('Единица измерения', validators=[DataRequired()])
     submit = SubmitField('Добавить')
 
+
 class UpdateUph(FlaskForm):
     uph = SelectField('UPH', validators=[DataRequired()])
     submit = SubmitField('Добавить')

@@ -1,34 +1,37 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Главная
+{{process}}
 {% endblock %}
 
 {% block body %}
 
-
-
 <div class="container py-5">
     <div class="row align-items-md-stretch">
         <h2 class="text-center">{{process}}</h2>
-        <a class="col-md-4" href="{{ url_for('.add_equipment', process=process) }}">
+        <a class="col-md-3" style = "margin: 10px" href="{{ url_for('.add_equipment', process=process) }}">
             <div class="h-100 p-3 bg-light border rounded-3 shadow text-center" >
-                <h3>Добавить оборудование</h3>
+                <h4>Добавить оборудование</h4>
             </div>
         </a>
-         <a class="col-md-4" href="{{ url_for('.add_tool', process=process) }}">
+         <a class="col-md-3" style = "margin: 10px" href="{{ url_for('.add_tool', process=process) }}">
             <div class="h-100 p-3 bg-light border rounded-3 shadow text-center" >
-                <h3>Добавить оснастку</h3>
+                <h4>Добавить оснастку</h4>
             </div>
         </a>
-        <a class="col-md-4" href="{{ url_for('.add_materials', process=process) }}">
+        <a class="col-md-3" style = "margin: 10px" href="{{ url_for('.add_materials', process=process) }}">
             <div class="h-100 p-3 bg-light border rounded-3 shadow text-center" >
-                <h3>Добавить материал</h3>
+                <h4>Добавить материал</h4>
             </div>
         </a> 
-        <a class="col-md-4" href="{{ url_for('.add_uph', process=process) }}">
+        <a class="col-md-3" style = "margin: 10px" href="{{ url_for('.uph', process=process) }}">
             <div class="h-100 p-3 bg-light border rounded-3 shadow text-center" >
-                <h3>Добавить UPH продуктов</h3>
+                <h4>Добавить UPH продуктов</h4>
+            </div>
+        </a>   
+        <a class="col-md-3" style = "margin: 10px" href="{{ url_for('.input_form_page', process=process) }}">
+            <div class="h-100 p-3 bg-light border rounded-3 shadow text-center" >
+                <h4>Заполнить отчет</h4>
             </div>
         </a>           
     </div>

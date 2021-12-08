@@ -13,9 +13,9 @@ class Tpp(db.Model):
     qty_out = db.Column(db.Integer, nullable=False)
     defects = db.Column(db.Text, nullable=False)
     materials_id = db.Column(db.Integer, db.ForeignKey('materials.id'))
-    volume_materials = db.Column(db.Float, nullable=False)
-    equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'))
-    tool_id = db.Column(db.Integer, db.ForeignKey('tool.id'))
+    volume_materials = db.Column(db.Float, nullable=False) # del
+    equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id')) # join with tool_id
+    tool_id = db.Column(db.Integer, db.ForeignKey('tool.id')) 
     recipe = db.Column(db.Text, nullable=False)
     time_s = db.Column(db.Text, nullable=False)
     time_p = db.Column(db.Text, nullable=False)
@@ -27,7 +27,6 @@ class Tpp(db.Model):
     risk = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date_input = db.Column(db.DateTime, index=True, default=datetime.utcnow)        
-
     def __repr__(self):
         return f'<Tpp {self.id}>'
 
@@ -77,7 +76,6 @@ class Equipment(db.Model):
     process_id = db.Column(db.Integer, db.ForeignKey('process.id'))
     main = db.Column(db.Text, nullable=False)
  
-    
     def __repr__(self):
         return f'<Equipment {self.id} of {self.main}>'
 

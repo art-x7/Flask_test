@@ -4,8 +4,10 @@ body {
   background-color: #f5f5f5;
 }
 
-.td {
-     text-decoration: none;
+.td, a {
+    text-decoration: none;
+    text-align: center;
+    color: black;
 }
 
 .shadow {
